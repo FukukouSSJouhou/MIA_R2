@@ -4,4 +4,4 @@
 *.db
 __pycache__/
 .idea/
-
+_audio/
