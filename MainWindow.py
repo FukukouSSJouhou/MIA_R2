@@ -6,7 +6,6 @@ from PySide2 import QtCore, QtWidgets, QtQml
 
 from Face_Process import Face_Process
 
-
 class MainWindowConnect(QtCore.QObject):
     logging_addsignal=QtCore.Signal(str)
     def __init__(self, parent=None):

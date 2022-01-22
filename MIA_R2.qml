@@ -83,6 +83,7 @@ Window {
         validator: DoubleValidator{
             bottom:0
         }
+        text:"1"
     }
     ScrollView {
         id:logging_scrollview

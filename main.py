@@ -17,6 +17,7 @@ def main():
     engine=QtQml.QQmlApplicationEngine()
     ctx=engine.rootContext()
     ctx.setContextProperty("mainwinconnect",mainwinconnect)
+
     engine.load('MIA_R2.qml')
     if not engine.rootObjects():
         sys.exit(-1)
