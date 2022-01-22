@@ -1,0 +1,7 @@
+*.qmlproject.*
+*.qmlproject
+*.db*
+*.db
+__pycache__/
+.idea/
+
