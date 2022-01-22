@@ -47,6 +47,8 @@ class Face_Process():
         capture=cv2.VideoCapture(self.filename)
         fps = capture.get(cv2.CAP_PROP_FPS)
         print('fps :',fps);print('frame :',capture.get(cv2.CAP_PROP_FRAME_COUNT))
-        
+
         #self.endtime = capture.get(cv2.CAP_PROP_FRAME_COUNT) / fps
         print('endtime :',self.endtime)
+        getsec = 0
+        cascade_path = './FACE/models/haarcascade_frontalface_default.xml'
