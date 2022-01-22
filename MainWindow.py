@@ -18,7 +18,6 @@ class MainWindowConnect(QtCore.QObject):
 
     @QtCore.Slot(str,float)
     def running_syori_clicked(self,filepath2,float_byou2):
-        print("tdn")
         self.videofilepath=filepath2
         self.floatbyou=float_byou2
         self.thread1=threading.Thread(target=self.mainProgram)
