@@ -10,6 +10,8 @@ class MainWindowConnect(QtCore.QObject):
     logging_addsignal=QtCore.Signal(str)
     def __init__(self, parent=None):
         super(MainWindowConnect, self).__init__(parent)
+        self.FACEpointmemo = None
+        self.FACEemomemo = None
         self.flag = 0
         self.instance = []
         self.videofilepath=""
@@ -35,6 +37,8 @@ class MainWindowConnect(QtCore.QObject):
             self.logging_addsignal.emit("Main Th!")
             self.logging_addsignal.emit("Processing pictures...")
             fp=Face_Process(self.videofilepath,self.floatbyou,self.logging_addsignal.emit)
-            fp.process()
+            FACEemomemo, FACEpointmemo =  fp.process()
+            self.FACEemomemo=FACEemomemo
+            self.FACEpointmemo=FACEpointmemo
             self.logging_addsignal.emit("Success!")
             self.is_valid=False

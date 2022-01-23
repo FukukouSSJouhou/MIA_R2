@@ -44,7 +44,16 @@ class Face_Process():
         self.target_img_select()
         self.logging_func("Saved Target Picture..")
         Instance_face = FACEmod.Main_process(self.filename,self.pertime,self.path_ONLY,self.endtime,self.logging_func)
+        self.logging_func("Creating Instance_face...")
         FACEpointmemo = Instance_face.save_allsec_img()
+        self.logging_func("Saved all images per {}".format(self.pertime))
+        self.logging_func("Outputed Facepointmemo!")
+        for index in range(math.floor(self.endtime)+1):
+            peremos=Instance_face.detect_emotion(index)
+            self.logging_func("{} : {}".format(index,peremos))
+        FACEemomemo=Instance_face.Write_to_textfile()
+        self.logging_func("Exported Faceemomemo!")
+        return FACEemomemo, FACEpointmemo
     def Make_audio(self):
         dir = "./_audio/"
         if not os.path.exists(dir):
