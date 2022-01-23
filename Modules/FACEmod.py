@@ -108,7 +108,7 @@ class Main_process:
             # execute the face detection model
             gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
             self.front_face_list=cascade.detectMultiScale(gray)
-            print(getsec, self.front_face_list)
+            self.logging_func("{} {}".format(getsec,self.front_face_list))
             #print(type(self.front_face_list))
 
             #self.temp_save_imgpaths=[]
@@ -308,7 +308,7 @@ class Main_process:
                 # cv2がエラーを吐いた場合の処理
                 ret_simi = 100000
 
-            print(comparing_img_path, ret_simi)
+            self.logging_func("{} {}".format(comparing_img_path, ret_simi))
             similarity_list.append(ret_simi)
 
         # similarity_list内で一番低い値のインデックスを取得
