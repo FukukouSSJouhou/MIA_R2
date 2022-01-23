@@ -12,6 +12,8 @@ import tkinter as tk
 from PIL import Image, ImageTk
 from PySide2 import QtCore, QtGui
 
+from Modules import FACEmod
+
 
 def path_cutext(pathkun):
     pathkun22, extkun = os.path.splitext(os.path.basename(pathkun))
@@ -25,7 +27,7 @@ class Face_Process():
         self.imgDIR_NAME = None
         self.endtime = None
         self.filename = filename
-        self.pertime = timedouga
+        self.pertime = int(timedouga)
         self.logging_func = logging_func
         self.path_ONLY = path_cutext(self.filename)
 
@@ -40,7 +42,9 @@ class Face_Process():
         self.endtime = self.get_playtime()
         self.logging_func("The length of the video / audio file has been confirmed: {}".format(self.endtime))
         self.target_img_select()
-
+        self.logging_func("Saved Target Picture..")
+        Instance_face = FACEmod.Main_process(self.filename,self.pertime,self.path_ONLY,self.endtime,self.logging_func)
+        FACEpointmemo = Instance_face.save_allsec_img()
     def Make_audio(self):
         dir = "./_audio/"
         if not os.path.exists(dir):

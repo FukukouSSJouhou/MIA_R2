@@ -6,3 +6,5 @@ __pycache__/
 .idea/
 _audio/
 FACE/temp_img/
+
+FACE/facepointmemo/
