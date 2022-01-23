@@ -7,7 +7,7 @@ Window {
     width: 640
     height: 480
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("MIA R2")
     Component.onCompleted: {
         function onLoad(){
             mainwinconnect.logging_addsignal.connect(
