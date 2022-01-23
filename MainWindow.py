@@ -6,6 +6,7 @@ from PySide2 import QtCore, QtWidgets, QtQml
 
 from Face_Process import Face_Process
 from Graph_Process import Graph_Process
+from Sentence_Process import Sentence_Process
 
 
 class MainWindowConnect(QtCore.QObject):
@@ -41,9 +42,11 @@ class MainWindowConnect(QtCore.QObject):
             self.logging_addsignal.emit("Main Th!")
             self.logging_addsignal.emit("Processing pictures...")
             fp=Face_Process(self.videofilepath,self.floatbyou,self.logging_addsignal.emit)
-            FACEemomemo, FACEpointmemo =  fp.process()
+            FACEemomemo, FACEpointmemo,endtime,voicefile =  fp.process()
             self.FACEemomemo=FACEemomemo
             self.FACEpointmemo=FACEpointmemo
+            sp=Sentence_Process(self.videofilepath,self.logging_addsignal.emit,endtime,voicefile)
+            sp.process()
             self.logging_addsignal.emit("Success!")
             self.is_valid=False
     @QtCore.Slot()
@@ -54,4 +57,5 @@ class MainWindowConnect(QtCore.QObject):
         gp=Graph_Process(self.videofilepath,self.logging_addsignal.emit)
         graph_F =gp.process(self.FACEemomemo)
         self.show_picture_graph1.emit(graph_F,"Graph Face Only!")
+
 

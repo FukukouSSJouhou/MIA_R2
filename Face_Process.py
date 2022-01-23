@@ -53,7 +53,7 @@ class Face_Process():
             self.logging_func("{} : {}".format(index,peremos))
         FACEemomemo=Instance_face.Write_to_textfile()
         self.logging_func("Exported Faceemomemo!")
-        return FACEemomemo, FACEpointmemo
+        return FACEemomemo, FACEpointmemo,self.endtime,self.voicefile
     def Make_audio(self):
         dir = "./_audio/"
         if not os.path.exists(dir):
