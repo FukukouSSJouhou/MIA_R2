@@ -22,7 +22,20 @@ class Sentence_Process:
             os.makedirs("./SENTENCE/csv/")
         if not os.path.exists("./SENTENCE/split_temp/"):
             os.makedirs("./SENTENCE/split_temp/")
+        self.logging_func("Creating Instance_sentence")
         Instance_sentence = SENTENCEmod.Main_process(self.voicefile, self.path_ONLY, self.endtime, subjectCSV, emoDic)
         Instance_sentence.Info_audio()
         Instance_sentence.Normalize_audio()
+        self.logging_func("Normalized audio")
+
+        starts_lengths = Instance_sentence.Cut_silence_detail()
+
+        text = Instance_sentence.Cut_by_silence_S()
+        self.logging_func(text)
+        for count in range(len(starts_lengths)-1):
+            text = Instance_sentence.Cut_by_silence(count)
+            self.logging_func(text)
+        text = Instance_sentence.Cut_by_silence_E()
+        self.logging_func(text)
+
 
