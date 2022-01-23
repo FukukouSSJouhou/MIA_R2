@@ -31,5 +31,7 @@ class Graph_Process:
         #F_list, V_list, S_list = Instance1_graph.Getlists()
         #FVS_list = Instance1_graph.Calculate_with_VS()
         Instance2_graph = GRAPHmod.DrawGraphs(self.path_ONLY)
+        self.logging_func("Creating Instance2_graph")
         savename_F = Instance2_graph.Draw(F1, 1)
+        self.logging_func("Exported savename_F")
         return savename_F
