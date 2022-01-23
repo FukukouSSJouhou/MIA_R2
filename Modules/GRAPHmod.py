@@ -127,6 +127,8 @@ class NumProcess:
         return self.after_List
 
     def Write_after(self):
+        if not os.path.exists('./MakeGraph/afteremomemo/'):
+            os.makedirs('./MakeGraph/afteremomemo/')
         txtfile = './MakeGraph/afteremomemo/'+self.path_ONLY+'.txt'
         f = open(txtfile, 'w')
         for a in range(len(self.after_List)):
@@ -150,6 +152,8 @@ surprise:lime(#00ff00)
 class DrawGraphs:
     def __init__(self, path_ONLY):
         self.path_ONLY = path_ONLY
+        if not os.path.exists("./MakeGraph/graphs/"):
+            os.makedirs("./MakeGraph/graphs/")
 
     def Draw(self, file, OneORThree):
         colors=["#ff0000","#ffff00","#000000","#0000ff","#00ff00"]

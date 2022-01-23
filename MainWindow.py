@@ -5,9 +5,13 @@ import threading
 from PySide2 import QtCore, QtWidgets, QtQml
 
 from Face_Process import Face_Process
+from Graph_Process import Graph_Process
+
 
 class MainWindowConnect(QtCore.QObject):
     logging_addsignal=QtCore.Signal(str)
+    gengraph_dialog_errkunsignal=QtCore.Signal(str)
+    show_picture_graph1=QtCore.Signal(str,str)
     def __init__(self, parent=None):
         super(MainWindowConnect, self).__init__(parent)
         self.FACEpointmemo = None
@@ -42,3 +46,12 @@ class MainWindowConnect(QtCore.QObject):
             self.FACEpointmemo=FACEpointmemo
             self.logging_addsignal.emit("Success!")
             self.is_valid=False
+    @QtCore.Slot()
+    def genGraph_Clicked(self):
+        if self.FACEemomemo is None or self.FACEpointmemo is None:
+            self.gengraph_dialog_errkunsignal.emit("Err")
+            return
+        gp=Graph_Process(self.videofilepath,self.logging_addsignal.emit)
+        graph_F =gp.process(self.FACEemomemo)
+        self.show_picture_graph1.emit(graph_F,"Graph Face Only!")
+

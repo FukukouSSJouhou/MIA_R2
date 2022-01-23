@@ -4,8 +4,10 @@ import QtQuick.Controls.Material 2.0
 import QtQuick.Controls 2.12
 import QtQuick.Dialogs 1.3
 Window {
+    property variant subwingengraphsingle;
     width: 640
     height: 480
+    id:root
     visible: true
     title: qsTr("MIA R2")
     Component.onCompleted: {
@@ -16,8 +18,36 @@ Window {
                     mainwinconnect.print_stdout(strkun)
                 }
             );
+            mainwinconnect.gengraph_dialog_errkunsignal.connect(
+                function dialogshowkun(strkun){
+                    gengraph_errdialog.open()
+                }
+
+            );
+            mainwinconnect.show_picture_graph1.connect(
+                function dialogpict(strkun,titlekun){
+
+                    var picture_path=strkun
+                    var component = Qt.createComponent("SubWindow_FaceOnlyGraphShow.qml")
+                    subwingengraphsingle    = component.createObject(root)
+                    subwingengraphsingle.imagesourcekun=picture_path
+                    subwingengraphsingle.title=titlekun
+                    subwingengraphsingle.show()
+                }
+
+            );
         }
         onLoad();
+    }
+    MessageDialog {
+        id:gengraph_errdialog
+        title:qsTr("Error")
+        text:qsTr("Please Run Process first")
+        onAccepted:{
+            gengraph_errdialog.close()
+        }
+        icon: StandardIcon.Critical
+        standardButtons: StandardButton.OK
     }
 
     Button {
@@ -100,11 +130,21 @@ Window {
                 readOnly: true
             }
     }
+    Button {
+        id: gengraphbutton
+        x: 158
+        y: 262
+        text: qsTr("GenGraph")
+        onClicked: {
+            mainwinconnect.genGraph_Clicked()
+        }
+    }
 
 }
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:1.25}D{i:1}D{i:2}D{i:3}D{i:4}D{i:5}D{i:6}D{i:7}D{i:10}D{i:9}
+    D{i:0;formeditorZoom:1.25}D{i:1}D{i:2}D{i:3}D{i:4}D{i:5}D{i:6}D{i:7}D{i:8}D{i:11}
+D{i:10}D{i:12}D{i:13}
 }
 ##^##*/
