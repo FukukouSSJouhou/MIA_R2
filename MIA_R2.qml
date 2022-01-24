@@ -49,6 +49,16 @@ Window {
         icon: StandardIcon.Critical
         standardButtons: StandardButton.OK
     }
+    MessageDialog {
+        id:beforerunpc_errdialog
+        title:qsTr("Error")
+        text:qsTr("Please Set File Path and length")
+        onAccepted:{
+            beforerunpc_errdialog.close()
+        }
+        icon: StandardIcon.Critical
+        standardButtons: StandardButton.OK
+    }
 
     Button {
         id: startbutton
@@ -56,6 +66,15 @@ Window {
         y: 262
         text: qsTr("Start")
         onClicked: {
+            if(videopathtextField.text == ""){
+                beforerunpc_errdialog.open()
+                return;
+            }
+            if(videolengthtextField.text == ""){
+                beforerunpc_errdialog.open()
+                return;
+            }
+
             mainwinconnect.running_syori_clicked(videopathtextField.text,videolengthtextField.text,checkBoxsent.checked)
         }
     }
@@ -151,7 +170,7 @@ Window {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.9}D{i:1}D{i:2}D{i:3}D{i:4}D{i:5}D{i:6}D{i:7}D{i:8}D{i:11}D{i:10}
-D{i:12}D{i:13}
+    D{i:0;formeditorZoom:0.9}D{i:1}D{i:2}D{i:3}D{i:4}D{i:5}D{i:6}D{i:7}D{i:8}D{i:9}D{i:12}
+D{i:11}D{i:13}D{i:14}
 }
 ##^##*/
