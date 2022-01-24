@@ -15,17 +15,20 @@ class MainWindowConnect(QtCore.QObject):
     show_picture_graph1=QtCore.Signal(str,str)
     def __init__(self, parent=None):
         super(MainWindowConnect, self).__init__(parent)
+        self.sentence_enabled = False
         self.FACEpointmemo = None
         self.FACEemomemo = None
         self.flag = 0
+        self.is_valid=True
         self.instance = []
         self.videofilepath=""
         self.floatbyou=0
 
-    @QtCore.Slot(str,float)
-    def running_syori_clicked(self,filepath2,float_byou2):
+    @QtCore.Slot(str,float,bool)
+    def running_syori_clicked(self,filepath2,float_byou2,sentence_checked):
         self.videofilepath=filepath2
         self.floatbyou=float_byou2
+        self.sentence_enabled=sentence_checked
         self.thread1=threading.Thread(target=self.mainProgram)
         self.thread1.setDaemon(True)
         self.thread1.start()
@@ -37,18 +40,19 @@ class MainWindowConnect(QtCore.QObject):
         print(furl)
         return QtCore.QDir.toNativeSeparators(QtCore.QUrl(furl).toLocalFile())
     def mainProgram(self):
-        self.is_valid=True
         if self.is_valid:
+            self.is_valid=False
             self.logging_addsignal.emit("Main Th!")
             self.logging_addsignal.emit("Processing pictures...")
             fp=Face_Process(self.videofilepath,self.floatbyou,self.logging_addsignal.emit)
             FACEemomemo, FACEpointmemo,endtime,voicefile =  fp.process()
             self.FACEemomemo=FACEemomemo
             self.FACEpointmemo=FACEpointmemo
-            sp=Sentence_Process(self.videofilepath,self.logging_addsignal.emit,endtime,voicefile)
-            sp.process()
+            if self.sentence_enabled:
+                sp=Sentence_Process(self.videofilepath,self.logging_addsignal.emit,endtime,voicefile)
+                sp.process()
             self.logging_addsignal.emit("Success!")
-            self.is_valid=False
+            self.is_valid=True
     @QtCore.Slot()
     def genGraph_Clicked(self):
         if self.FACEemomemo is None or self.FACEpointmemo is None:

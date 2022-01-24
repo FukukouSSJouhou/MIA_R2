@@ -122,10 +122,12 @@ class Main_process:
 
             text = r.recognize_google(audio, language='ja-JP')
             #print(text)
-        except:
+        except Exception as e:
             #print('========== ERROR ==========')
             text = '<empty>'
-
+            print("type:" + str(type(e)))
+            print('args:' + str(e.args))
+            print('message:' + e.message)
         return text
 
     def Write_startendtimes(self):

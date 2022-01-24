@@ -56,7 +56,7 @@ Window {
         y: 262
         text: qsTr("Start")
         onClicked: {
-            mainwinconnect.running_syori_clicked(videopathtextField.text,videolengthtextField.text)
+            mainwinconnect.running_syori_clicked(videopathtextField.text,videolengthtextField.text,checkBoxsent.checked)
         }
     }
     FileDialog{
@@ -140,11 +140,18 @@ Window {
         }
     }
 
+    CheckBox {
+        id: checkBoxsent
+        x: 201
+        y: 127
+        text: qsTr("Sentence")
+    }
+
 }
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:1.25}D{i:1}D{i:2}D{i:3}D{i:4}D{i:5}D{i:6}D{i:7}D{i:8}D{i:11}
-D{i:10}D{i:12}D{i:13}
+    D{i:0;formeditorZoom:0.9}D{i:1}D{i:2}D{i:3}D{i:4}D{i:5}D{i:6}D{i:7}D{i:8}D{i:11}D{i:10}
+D{i:12}D{i:13}
 }
 ##^##*/
