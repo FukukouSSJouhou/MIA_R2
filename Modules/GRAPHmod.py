@@ -182,10 +182,10 @@ class DrawGraphs:
         # plot on axes
         if OneORThree == 1:
             linetype = '-'
-            title = 'detected emotions (Face only)'
+            title = 'detected emotions (Face only) ' + self.path_ONLY
         elif OneORThree == 3:
             linetype = '--'
-            title = 'detected emotions (Face & Voice & Sentence)'
+            title = 'detected emotions (Face & Voice & Sentence) '  + self.path_ONLY
         for i in range(5):
             ax.plot(x,ylist[i],linetype,c=colors[i],linewidth=1)
 
