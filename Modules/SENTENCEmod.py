@@ -115,13 +115,8 @@ class Main_process:
 
     def SpeechRecognition(self):
         try:
-            r = sr.Recognizer()
-
-            with sr.AudioFile('./SENTENCE/split_temp/temp.wav') as source:
-                audio = r.record(source)
-
-            text = r.recognize_google(audio, language='ja-JP')
-            #print(text)
+            k=KyokoWTGoogle()
+            text=k.gettext('./SENTENCE/split_temp/temp.wav')
         except Exception as e:
             #print('========== ERROR ==========')
             text = '<empty>'
