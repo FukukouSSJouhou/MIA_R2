@@ -5,7 +5,7 @@ import pandas as pd
 from janome.tokenizer import Tokenizer
 # ~subject.csv "Word","Katakana","Emotion"print
 # Example.csv "Emotion", "Symbol", "Emo5Ryo"
-
+from KyokoWT.KyokoWT.coreapis import KyokoWTGoogle
 class Main_process:
     def __init__(self, voicefile, onlyfile, endtime, subjectCSV, emoDic):
         self.voicefile = voicefile
