@@ -101,6 +101,7 @@ class Face_Process():
                 self.i = 0
                 if len(self.front_face_list) == 0:
                     # self.facepoint.append([0,0,0,0])
+                    getsec += self.pertime
                     continue
                 else:
                     for (x, y, w, h) in self.front_face_list:
