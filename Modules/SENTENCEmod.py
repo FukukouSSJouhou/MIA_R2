@@ -117,12 +117,14 @@ class Main_process:
         try:
             k=KyokoWTGoogle()
             text=k.gettext('./SENTENCE/split_temp/temp.wav')
+        except AttributeError as a:
+            text='<empty>'
         except Exception as e:
             #print('========== ERROR ==========')
             text = '<empty>'
             print("type:" + str(type(e)))
             print('args:' + str(e.args))
-            print('message:' + e.message)
+            #print('message:' + e.message)
         return text
 
     def Write_startendtimes(self):
