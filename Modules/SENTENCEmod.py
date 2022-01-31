@@ -46,8 +46,8 @@ class Main_process:
         # ffmpeg -y -i ./SENTENCE/split_temp/normalized.wav -af silencedetect=noise=-39.0dB:d=0.4 -f null -
         cmd_cut_silence = ['ffmpeg','-y','-i','./SENTENCE/split_temp/normalized.wav','-af','silencedetect=noise={}dB:d={}'.format(self.mean_vol, sillen),'-f','null','-']
         silence_Info = subprocess.run(cmd_cut_silence, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        print(silence_Info)
-        lines = str(silence_Info).split('\\r\\n')
+        #gprint(silence_Info)
+        lines = str(silence_Info).replace('\\r','').split('\\r\\n')
 
         time_list=[]
         for line in lines:
