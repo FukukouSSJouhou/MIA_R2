@@ -52,6 +52,7 @@ class MainWindowConnect(QtCore.QObject):
                 sp=Sentence_Process(self.videofilepath,self.logging_addsignal.emit,endtime,voicefile)
                 sp.process()
             self.logging_addsignal.emit("Success!")
+            print('\033[34m' + 'Success!!' + '\033[0m')
             self.is_valid=True
     @QtCore.Slot()
     def genGraph_Clicked(self):
