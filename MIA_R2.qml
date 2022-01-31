@@ -14,7 +14,7 @@ Window {
         function onLoad(){
             mainwinconnect.logging_addsignal.connect(
                 function logAdd(strkun){
-                    textArea_logging.insert(textArea_logging.length,strkun + "\n")
+                    textArea_logging.insert(textArea_logging.length,strkun + "<br>")
                     mainwinconnect.print_stdout(strkun)
                 }
             );
@@ -144,7 +144,7 @@ Window {
                 id: textArea_logging
                 text:""
                 wrapMode: Text.Wrap
-                textFormat: Text.AutoText
+                textFormat: Text.RichText
                 placeholderText: qsTr("")
                 readOnly: true
             }

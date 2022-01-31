@@ -16,7 +16,7 @@ class Sentence_Process:
     def logging_blue(self,strkun):
         self.logging_func("\033[34m{}\033[0m".format(strkun))
     def process(self):
-        self.logging_func("<< SENTENCE >>")
+        self.logging_func("&lt;&lt; SENTENCE &gt;&gt;")
         subjectCSV = './SENTENCE/csv/Asubject.csv'
         emoDic = './SENTENCE/csv/EmoWorddic.csv'
         if not os.path.exists("./SENTENCE/csv/"):
