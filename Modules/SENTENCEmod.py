@@ -130,6 +130,8 @@ class Main_process:
 
     def Write_startendtimes(self):
         timefile='./SENTENCE/times/'+self.onlyfile+'_times.txt'
+        if not os.path.exists("./SENTENCE/times"):
+            os.makedirs("./SENTENCE/times/")
         f = open(timefile, 'w')
 
         for i in range(len(self.starts_ends_list)):
@@ -142,6 +144,8 @@ class Main_process:
 
     def Write_texts(self):
         textfile='./SENTENCE/texts/'+self.onlyfile+'.txt'
+        if not os.path.exists("./SENTENCE/texts"):
+            os.makedirs("./SENTENCE/texts/")
         f = open(textfile, 'w')
 
         for i in range(len(self.textslist)):
@@ -215,6 +219,8 @@ class Main_process:
     def Write_emos(self):
         #print(self.allsentences_emos_list)
         outfile = './SENTENCE/emomemo/'+self.onlyfile+'.txt'
+        if not os.path.exists("./SENTENCE/emomemo"):
+            os.makedirs("./SENTENCE/emomemo")
         f = open(outfile, 'w')
         for i in range(len(self.allsentences_emos_list)):
             for j in range(len(self.allsentences_emos_list[i])):
