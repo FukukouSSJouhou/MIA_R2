@@ -40,14 +40,14 @@ class Sentence_Process:
 
         print(text)
         self.logging_func('end')
-        self.logging_func('0秒 : {}\n'.format(text))
+        self.logging_func('0s : {}\n'.format(text))
         for count in range(len(starts_lengths)-1):
             text = Instance_sentence.Cut_by_silence(count)
             self.logging_func(text)
             self.logging_func('end')
-            self.logging_func('{}秒 : {}\n'.format(count+1, text))
+            self.logging_func('{}s : {}\n'.format(count+1, text))
         text = Instance_sentence.Cut_by_silence_E()
         self.logging_func(text)
         self.logging_func('end')
-        self.logging_func('{}秒 : {}\n'.format(len(starts_lengths), text))
+        self.logging_func('{}s : {}\n'.format(len(starts_lengths), text))
 
