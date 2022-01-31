@@ -47,10 +47,11 @@ class Main_process:
         cmd_cut_silence = ['ffmpeg','-y','-i','./SENTENCE/split_temp/normalized.wav','-af','silencedetect=noise={}dB:d={}'.format(self.mean_vol, sillen),'-f','null','-']
         silence_Info = subprocess.run(cmd_cut_silence, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         #gprint(silence_Info)
-        lines = str(silence_Info).replace('\\r','').split('\\n')
+        lines = str(silence_Info).replace('\\r','').split('\\n') # LinuxやosxだとLF単独のためCRを削除
 
         time_list=[]
         for line in lines:
+            #print(line)
             if "silencedetect" in line:
                 words = line.split(" ")
                 #print(words)
