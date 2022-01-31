@@ -13,7 +13,8 @@ class Sentence_Process:
         self.path_ONLY = path_cutexthanshin(filename)
         self.endtime=endtime
         self.voicefile=voicefile
-
+    def logging_blue(self,strkun):
+        self.logging_func("\033[34m{}\033[0m".format(strkun))
     def process(self):
         self.logging_func("<< SENTENCE >>")
         subjectCSV = './SENTENCE/csv/Asubject.csv'
@@ -56,7 +57,7 @@ class Sentence_Process:
         self.logging_func('\033[34m' + 'Exported SENTENCEtimememo' +'\033[0m' )
         # 切られた音声から文字起こしされた文章を記録
         textslist = Instance_sentence.Write_texts()
-        self.logging_func('exported textslist')
+        self.logging_blue('exported textslist')
 
         #-------------------- Emotion dictionary part --------------------
         for count in range(len(starts_lengths)+1):
@@ -74,6 +75,6 @@ class Sentence_Process:
         print('='*30)
         self.logging_func('==============================\n')
         SENTENCEemomemo = Instance_sentence.Write_emos()
-        self.logging_func('SENTENCEemomemoが出力されました\n')
+        self.logging_blue('Exported SENTENCEemomemo')
 
         return SENTENCEemomemo, SENTENCEtimememo, textslist
