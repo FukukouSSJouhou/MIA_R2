@@ -13,4 +13,4 @@ class KyokoLoggingkun():
     def warnout(self,strkun):
         self.logginkun("#FFFF00",strkun)
     def debugout(self,strkun):
-        self.logginkun("FF00FF",strkun)
+        self.logginkun("#FF00FF",strkun)

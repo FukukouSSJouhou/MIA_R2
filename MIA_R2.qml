@@ -15,12 +15,12 @@ Window {
             mainwinconnect.logging_addsignal.connect(
                 function logAdd(strkun){
                     textArea_logging.insert(textArea_logging.length,strkun + "<br>")
-                    mainwinconnect.print_stdout(strkun)
+                    //mainwinconnect.print_stdout(strkun)
                 }
             );
             mainwinconnect.logging_ansi_addsignal.connect(
-                function logAdd(strkun){
-                    textArea_logging.insert(textArea_logging.length,strkun + "<br>")
+                function logAdd(colorkun,strkun){
+                    textArea_logging.insert(textArea_logging.length,"<font color=\"" + colorkun + "\">"+strkun + "</font><br>")
                 }
             );
             mainwinconnect.gengraph_dialog_errkunsignal.connect(
