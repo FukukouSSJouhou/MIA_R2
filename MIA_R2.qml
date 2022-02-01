@@ -81,7 +81,7 @@ Window {
     FileDialog{
         id: videoOpenFileDialog
         title: qsTr("Please choose video file")
-        nameFilters: ["Movie Files (*.mp4 *.mkv *.m2ts *.webm)"]
+        nameFilters: ["Movie Files (*.mp4 *.mkv *.m2ts *.webm *.ts)","All Files (*)"]
         selectFolder: false
         onAccepted:{
             //videopathtextField.text=videoOpenFileDialog.fileUrl.toLocaleString()
