@@ -33,6 +33,9 @@ Window {
                 }
 
             );
+            mainwinconnect.set_runbuttonstate.connect(
+                (boolkun)=> startbutton.enabled=boolkun
+            );
         }
         onLoad();
     }

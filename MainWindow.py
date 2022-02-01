@@ -15,6 +15,7 @@ class MainWindowConnect(QtCore.QObject):
     gengraph_dialog_errkunsignal=QtCore.Signal(str)
     show_picture_graph1=QtCore.Signal(str,str)
     logging_ansi_addsignal=QtCore.Signal(str,str)
+    set_runbuttonstate=QtCore.Signal(bool)
     def __init__(self, parent=None):
         super(MainWindowConnect, self).__init__(parent)
         self.sentence_enabled = False
@@ -53,6 +54,7 @@ class MainWindowConnect(QtCore.QObject):
     def mainProgram(self):
         if self.is_valid:
             self.is_valid=False
+            self.set_runbuttonstate.emit(False)
             self.loggingobj.normalout("Main Thread!")
             self.loggingobj.normalout("Processing pictures...")
             fp=Face_Process(self.videofilepath,self.floatbyou,self.loggingobj)
@@ -64,6 +66,7 @@ class MainWindowConnect(QtCore.QObject):
                 sp.process()
             self.loggingobj.successout("Success!")
             #print('\033[34m' + 'Success!!' + '\033[0m')
+            self.set_runbuttonstate.emit(True)
             self.is_valid=True
     @QtCore.Slot()
     def genGraph_Clicked(self):
