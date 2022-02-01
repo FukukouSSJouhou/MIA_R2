@@ -13,13 +13,13 @@ Window {
     Component.onCompleted: {
         function onLoad(){
             mainwinconnect.logging_addsignal.connect(
-                function logAdd(strkun){
+                (strkun)=>{
                     textArea_logging.insert(textArea_logging.length,strkun + "<br>")
                     //mainwinconnect.print_stdout(strkun)
                 }
             );
             mainwinconnect.logging_ansi_addsignal.connect(
-                function logAdd(colorkun,strkun){
+                (colorkun,strkun)=>{
                     textArea_logging.insert(textArea_logging.length,"<font color=\"" + colorkun + "\">"+strkun + "</font><br>")
                 }
             );
