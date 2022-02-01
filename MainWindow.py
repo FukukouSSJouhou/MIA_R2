@@ -13,6 +13,7 @@ class MainWindowConnect(QtCore.QObject):
     logging_addsignal=QtCore.Signal(str)
     gengraph_dialog_errkunsignal=QtCore.Signal(str)
     show_picture_graph1=QtCore.Signal(str,str)
+    logging_ansi_addsignal=QtCore.Signal(str)
     def __init__(self, parent=None):
         super(MainWindowConnect, self).__init__(parent)
         self.sentence_enabled = False
@@ -23,7 +24,12 @@ class MainWindowConnect(QtCore.QObject):
         self.instance = []
         self.videofilepath=""
         self.floatbyou=0
-
+    def logging_print_crcode(self,colorcode,text):
+        r = int(colorcode[1:3], 16)
+        g = int(colorcode[3:5], 16)
+        b = int(colorcode[5:7], 16)
+        print("\033[38;2;{};{};{}m{}\033[0m".format(r,g,b,text))
+        self.logging_ansi_addsignal.emit("<font color='{}'>{}</font>".format(colorcode,text))
     @QtCore.Slot(str,float,bool)
     def running_syori_clicked(self,filepath2,float_byou2,sentence_checked):
         self.videofilepath=filepath2
@@ -37,6 +43,7 @@ class MainWindowConnect(QtCore.QObject):
         print(strtextkun)
     @QtCore.Slot(str ,result='QVariant')
     def videoFilePathSet(self,furl):
+        self.logging_print_crcode("#ff00ff","tdn")
         print(furl)
         return QtCore.QDir.toNativeSeparators(QtCore.QUrl(furl).toLocalFile())
     def mainProgram(self):

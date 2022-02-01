@@ -18,6 +18,11 @@ Window {
                     mainwinconnect.print_stdout(strkun)
                 }
             );
+            mainwinconnect.logging_ansi_addsignal.connect(
+                function logAdd(strkun){
+                    textArea_logging.insert(textArea_logging.length,strkun + "<br>")
+                }
+            );
             mainwinconnect.gengraph_dialog_errkunsignal.connect(
                 function dialogshowkun(strkun){
                     gengraph_errdialog.open()
