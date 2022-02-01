@@ -10,14 +10,16 @@ from keras.preprocessing import image
 
 import math
 
+from Modules.Loggingkun import KyokoLoggingkun
+
 
 class Main_process:
-    def __init__(self, video_path, pertime, video_path_ONLY, endtime,logging_func):
+    def __init__(self, video_path, pertime, video_path_ONLY, endtime,loggingobj:KyokoLoggingkun):
         self.video_path=video_path
         self.pertime=pertime
         self.video_path_ONLY=video_path_ONLY
         self.endtime = endtime
-        self.logging_func=logging_func
+        self.loggingobj=loggingobj
 
         #self.cascade_path='./FACE/models/haarcascade_frontalface_default.xml'
         model_path = './FACE/models/5face_emotions_100ep.hdf5'
@@ -84,7 +86,7 @@ class Main_process:
         #print(self.video_path,"-"*20)
         capture = cv2.VideoCapture(self.video_path)
         fps = capture.get(cv2.CAP_PROP_FPS)
-        self.logging_func(fps)
+        self.loggingobj.normalout(fps)
         #self.endtime = capture.get(cv2.CAP_PROP_FRAME_COUNT) / fps
         #print(self.endtime)
 
@@ -98,7 +100,7 @@ class Main_process:
         self.hantei=0# target画像の処理を行ったかの判定変数
 
         # 各秒数の画像を処理
-        self.logging_func(math.floor(self.endtime))
+        self.loggingobj.normalout(math.floor(self.endtime))
         while getsec <= math.floor(self.endtime):
             #print(getsec)
             # set the time
@@ -108,7 +110,7 @@ class Main_process:
             # execute the face detection model
             gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
             self.front_face_list=cascade.detectMultiScale(gray)
-            self.logging_func("{} {}".format(getsec,self.front_face_list))
+            self.loggingobj.normalout("{} {}".format(getsec,self.front_face_list))
             #print(type(self.front_face_list))
 
             #self.temp_save_imgpaths=[]
@@ -176,7 +178,7 @@ class Main_process:
         f.close()
 
         capture.release()
-        self.logging_func("Released capture")
+        self.loggingobj.successout("Released capture")
 
         return txtfile2
     """
@@ -308,7 +310,7 @@ class Main_process:
                 # cv2がエラーを吐いた場合の処理
                 ret_simi = 100000
 
-            self.logging_func("{} {}".format(comparing_img_path, ret_simi))
+            self.loggingobj.normalout("{} {}".format(comparing_img_path, ret_simi))
             similarity_list.append(ret_simi)
 
         # similarity_list内で一番低い値のインデックスを取得

@@ -13,6 +13,7 @@ from PIL import Image, ImageTk
 from PySide2 import QtCore, QtGui
 
 from Modules import FACEmod
+from Modules.Loggingkun import KyokoLoggingkun
 
 
 def path_cutext(pathkun):
@@ -21,38 +22,38 @@ def path_cutext(pathkun):
 
 
 class Face_Process():
-    def __init__(self, filename, timedouga, logging_func):
+    def __init__(self, filename, timedouga, loggingobj:KyokoLoggingkun):
         self.hantei = None
         self.voicefile = None
         self.imgDIR_NAME = None
         self.endtime = None
         self.filename = filename
         self.pertime = int(timedouga)
-        self.logging_func = logging_func
+        self.loggingobj = loggingobj
         self.path_ONLY = path_cutext(self.filename)
 
     def process(self):
-        self.logging_func("<< FACE >>")
+        self.loggingobj.normalout("<< FACE >>")
         if not os.path.exists(self.filename):
-            self.logging_func("404 NOT FOUND")
-        self.logging_func("input file name : " + self.filename)
-        self.logging_func("Processing movie file :" + self.filename)
+            self.loggingobj.errout("404 NOT FOUND")
+        self.loggingobj.normalout("input file name : " + self.filename)
+        self.loggingobj.normalout("Processing movie file :" + self.filename)
         self.Make_audio()
-        self.logging_func("Generated Wav File.")
+        self.loggingobj.successout("Generated Wav File.")
         self.endtime = self.get_playtime()
-        self.logging_func("The length of the video / audio file has been confirmed: {}".format(self.endtime))
+        self.loggingobj.successout("The length of the video / audio file has been confirmed: {}".format(self.endtime))
         self.target_img_select()
-        self.logging_func("Saved Target Picture..")
-        Instance_face = FACEmod.Main_process(self.filename,self.pertime,self.path_ONLY,self.endtime,self.logging_func)
-        self.logging_func("Creating Instance_face...")
+        self.loggingobj.successout("Saved Target Picture..")
+        Instance_face = FACEmod.Main_process(self.filename,self.pertime,self.path_ONLY,self.endtime,self.loggingobj)
+        self.loggingobj.normalout("Creating Instance_face...")
         FACEpointmemo = Instance_face.save_allsec_img()
-        self.logging_func("Saved all images per {}".format(self.pertime))
-        self.logging_func("Outputed Facepointmemo!")
+        self.loggingobj.successout("Saved all images per {}".format(self.pertime))
+        self.loggingobj.successout("Outputed Facepointmemo!")
         for index in range(math.floor(self.endtime)+1):
             peremos=Instance_face.detect_emotion(index)
-            self.logging_func("{} : {}".format(index,peremos))
+            self.loggingobj.normalout("{} : {}".format(index,peremos))
         FACEemomemo=Instance_face.Write_to_textfile()
-        self.logging_func("Exported Faceemomemo!")
+        self.loggingobj.successout("Exported Faceemomemo!")
         return FACEemomemo, FACEpointmemo,self.endtime,self.voicefile
     def Make_audio(self):
         dir = "./_audio/"
@@ -71,7 +72,7 @@ class Face_Process():
         self.imgDIR_NAME = './FACE/temp_img/img_' + self.path_ONLY
         if not os.path.exists(self.imgDIR_NAME):
             os.makedirs(self.imgDIR_NAME)
-        self.logging_func(self.filename)
+        self.loggingobj.normalout(self.filename)
         capture = cv2.VideoCapture(self.filename)
         fps = capture.get(cv2.CAP_PROP_FPS)
         print('fps :', fps);
