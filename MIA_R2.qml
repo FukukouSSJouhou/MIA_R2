@@ -14,8 +14,13 @@ Window {
         function onLoad(){
             mainwinconnect.logging_addsignal.connect(
                 function logAdd(strkun){
-                    textArea_logging.insert(textArea_logging.length,strkun + "\n")
-                    mainwinconnect.print_stdout(strkun)
+                    textArea_logging.insert(textArea_logging.length,strkun + "<br>")
+                    //mainwinconnect.print_stdout(strkun)
+                }
+            );
+            mainwinconnect.logging_ansi_addsignal.connect(
+                function logAdd(colorkun,strkun){
+                    textArea_logging.insert(textArea_logging.length,"<font color=\"" + colorkun + "\">"+strkun + "</font><br>")
                 }
             );
             mainwinconnect.gengraph_dialog_errkunsignal.connect(
@@ -144,7 +149,7 @@ Window {
                 id: textArea_logging
                 text:""
                 wrapMode: Text.Wrap
-                textFormat: Text.AutoText
+                textFormat: Text.RichText
                 placeholderText: qsTr("")
                 readOnly: true
             }
