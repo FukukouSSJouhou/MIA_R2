@@ -6,6 +6,7 @@ from PySide2 import QtCore, QtWidgets, QtQml
 
 from Face_Process import Face_Process
 from Graph_Process import Graph_Process
+from Modules.Loggingkun import KyokoLoggingkun
 from Sentence_Process import Sentence_Process
 
 
@@ -24,12 +25,16 @@ class MainWindowConnect(QtCore.QObject):
         self.instance = []
         self.videofilepath=""
         self.floatbyou=0
+        self.loggingobj=KyokoLoggingkun(self.logging_print_crcode, self.logging_print_nocrcode)
     def logging_print_crcode(self,colorcode,text):
         r = int(colorcode[1:3], 16)
         g = int(colorcode[3:5], 16)
         b = int(colorcode[5:7], 16)
         print("\033[38;2;{};{};{}m{}\033[0m".format(r,g,b,text))
         self.logging_ansi_addsignal.emit("<font color='{}'>{}</font>".format(colorcode,text))
+    def logging_print_nocrcode(self,text):
+        print(text)
+        self.logging_ansi_addsignal.emit(text)
     @QtCore.Slot(str,float,bool)
     def running_syori_clicked(self,filepath2,float_byou2,sentence_checked):
         self.videofilepath=filepath2
@@ -50,7 +55,7 @@ class MainWindowConnect(QtCore.QObject):
             self.is_valid=False
             self.logging_addsignal.emit("Main Th!")
             self.logging_addsignal.emit("Processing pictures...")
-            fp=Face_Process(self.videofilepath,self.floatbyou,self.logging_print_crcode)
+            fp=Face_Process(self.videofilepath,self.floatbyou,self.loggingobj)
             FACEemomemo, FACEpointmemo,endtime,voicefile =  fp.process()
             self.FACEemomemo=FACEemomemo
             self.FACEpointmemo=FACEpointmemo
