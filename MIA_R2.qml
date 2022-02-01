@@ -164,6 +164,7 @@ Window {
         x: 201
         y: 127
         text: qsTr("Sentence")
+        checked: true
     }
 
 }
