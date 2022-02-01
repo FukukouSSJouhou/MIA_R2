@@ -31,10 +31,10 @@ class MainWindowConnect(QtCore.QObject):
         g = int(colorcode[3:5], 16)
         b = int(colorcode[5:7], 16)
         print("\033[38;2;{};{};{}m{}\033[0m".format(r,g,b,text))
-        self.logging_ansi_addsignal.emit("<font color='{}'>{}</font>".format(colorcode,text))
+        self.logging_ansi_addsignal.emit("<font color='{}'>{}</font>".format(colorcode,text).replace("<","&lt;").replace(">","&gt;"))
     def logging_print_nocrcode(self,text):
         print(text)
-        self.logging_ansi_addsignal.emit(text)
+        self.logging_ansi_addsignal.emit(text.replace("<","&lt;").replace(">","&gt;"))
     @QtCore.Slot(str,float,bool)
     def running_syori_clicked(self,filepath2,float_byou2,sentence_checked):
         self.videofilepath=filepath2
