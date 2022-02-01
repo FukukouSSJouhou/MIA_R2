@@ -13,24 +13,16 @@ Window {
     Component.onCompleted: {
         function onLoad(){
             mainwinconnect.logging_addsignal.connect(
-                function logAdd(strkun){
-                    textArea_logging.insert(textArea_logging.length,strkun + "<br>")
-                    //mainwinconnect.print_stdout(strkun)
-                }
+                (strkun)=>textArea_logging.insert(textArea_logging.length,strkun + "<br>")
             );
             mainwinconnect.logging_ansi_addsignal.connect(
-                function logAdd(colorkun,strkun){
-                    textArea_logging.insert(textArea_logging.length,"<font color=\"" + colorkun + "\">"+strkun + "</font><br>")
-                }
+                (colorkun,strkun)=>textArea_logging.insert(textArea_logging.length,"<font color=\"" + colorkun + "\">"+strkun + "</font><br>")
             );
             mainwinconnect.gengraph_dialog_errkunsignal.connect(
-                function dialogshowkun(strkun){
-                    gengraph_errdialog.open()
-                }
-
+                (strkun)=>gengraph_errdialog.open()
             );
             mainwinconnect.show_picture_graph1.connect(
-                function dialogpict(strkun,titlekun){
+                (strkun,titlekun)=>{
 
                     var picture_path=strkun
                     var component = Qt.createComponent("SubWindow_FaceOnlyGraphShow.qml")
@@ -40,6 +32,9 @@ Window {
                     subwingengraphsingle.show()
                 }
 
+            );
+            mainwinconnect.set_runbuttonstate.connect(
+                (boolkun)=> startbutton.enabled=boolkun
             );
         }
         onLoad();
@@ -169,6 +164,7 @@ Window {
         x: 201
         y: 127
         text: qsTr("Sentence")
+        checked: true
     }
 
 }
