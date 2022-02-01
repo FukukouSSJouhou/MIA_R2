@@ -43,7 +43,6 @@ class MainWindowConnect(QtCore.QObject):
         print(strtextkun)
     @QtCore.Slot(str ,result='QVariant')
     def videoFilePathSet(self,furl):
-        self.logging_print_crcode("#ff00ff","tdn")
         print(furl)
         return QtCore.QDir.toNativeSeparators(QtCore.QUrl(furl).toLocalFile())
     def mainProgram(self):
@@ -51,7 +50,7 @@ class MainWindowConnect(QtCore.QObject):
             self.is_valid=False
             self.logging_addsignal.emit("Main Th!")
             self.logging_addsignal.emit("Processing pictures...")
-            fp=Face_Process(self.videofilepath,self.floatbyou,self.logging_addsignal.emit)
+            fp=Face_Process(self.videofilepath,self.floatbyou,self.logging_print_crcode)
             FACEemomemo, FACEpointmemo,endtime,voicefile =  fp.process()
             self.FACEemomemo=FACEemomemo
             self.FACEpointmemo=FACEpointmemo
