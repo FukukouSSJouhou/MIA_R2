@@ -53,24 +53,24 @@ class MainWindowConnect(QtCore.QObject):
     def mainProgram(self):
         if self.is_valid:
             self.is_valid=False
-            self.logging_addsignal.emit("Main Th!")
-            self.logging_addsignal.emit("Processing pictures...")
+            self.loggingobj.normalout("Main Th!")
+            self.loggingobj.normalout("Processing pictures...")
             fp=Face_Process(self.videofilepath,self.floatbyou,self.loggingobj)
             FACEemomemo, FACEpointmemo,endtime,voicefile =  fp.process()
             self.FACEemomemo=FACEemomemo
             self.FACEpointmemo=FACEpointmemo
             if self.sentence_enabled:
-                sp=Sentence_Process(self.videofilepath,self.logging_addsignal.emit,endtime,voicefile)
+                sp=Sentence_Process(self.videofilepath,self.loggingobj,endtime,voicefile)
                 sp.process()
-            self.logging_addsignal.emit("Success!")
-            print('\033[34m' + 'Success!!' + '\033[0m')
+            self.loggingobj.successout("Success!")
+            #print('\033[34m' + 'Success!!' + '\033[0m')
             self.is_valid=True
     @QtCore.Slot()
     def genGraph_Clicked(self):
         if self.FACEemomemo is None or self.FACEpointmemo is None:
             self.gengraph_dialog_errkunsignal.emit("Err")
             return
-        gp=Graph_Process(self.videofilepath,self.logging_addsignal.emit)
+        gp=Graph_Process(self.videofilepath,self.loggingobj)
         graph_F =gp.process(self.FACEemomemo)
         self.show_picture_graph1.emit(graph_F,"Graph Face Only!")
 
