@@ -53,7 +53,7 @@ class MainWindowConnect(QtCore.QObject):
     def mainProgram(self):
         if self.is_valid:
             self.is_valid=False
-            self.loggingobj.normalout("Main Th!")
+            self.loggingobj.normalout("Main Thread!")
             self.loggingobj.normalout("Processing pictures...")
             fp=Face_Process(self.videofilepath,self.floatbyou,self.loggingobj)
             FACEemomemo, FACEpointmemo,endtime,voicefile =  fp.process()
