@@ -19,6 +19,7 @@ class MainWindowConnect(QtCore.QObject):
     def __init__(self, parent=None):
         super(MainWindowConnect, self).__init__(parent)
         self.sentence_enabled = False
+        self.voice_enabled=False
         self.FACEpointmemo = None
         self.FACEemomemo = None
         self.flag = 0
