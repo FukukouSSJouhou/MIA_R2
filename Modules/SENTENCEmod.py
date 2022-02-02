@@ -46,25 +46,18 @@ class Main_process:
         # ffmpeg -y -i ./SENTENCE/split_temp/normalized.wav -af silencedetect=noise=-39.0dB:d=0.4 -f null -
         cmd_cut_silence = ['ffmpeg','-y','-i','./SENTENCE/split_temp/normalized.wav','-af','silencedetect=noise={}dB:d={}'.format(self.mean_vol, sillen),'-f','null','-']
         silence_Info = subprocess.run(cmd_cut_silence, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        #gprint(silence_Info)
         lines = str(silence_Info).replace('\\r','').split('\\n') # LinuxやosxだとLF単独のためCRを削除
 
         time_list=[]
         for line in lines:
-            #print(line)
             if "silencedetect" in line:
                 words = line.split(" ")
-                #print(words)
                 for i in range(len(words)):
                     if "silence_start" in words[i]:
-                        #time_list.append(float(words[i+1]) + 0.5)
                         time_list.append(float(words[i+1]))
-                    #if "silence_end" in words[i]:
-                    #    time_list.append(float(words[i+1]))
                     if "silence_duration" in words[i]:
                         time_list.append(float(words[i+1]))
         self.starts_lengths = list(zip(*[iter(time_list)]*2))
-        #print(self.starts_ends)
 
         return self.starts_lengths
 
@@ -125,7 +118,6 @@ class Main_process:
             text = '<empty>'
             print("type:" + str(type(e)))
             print('args:' + str(e.args))
-            #print('message:' + e.message)
         return text
 
     def Write_startendtimes(self):
@@ -161,33 +153,23 @@ class Main_process:
         sen = self.textslist[count]
         symbols=[]
         tokens=[]
-        #print("=============================================")
-        #print(sen)
         for token in self.tokenizer.tokenize(sen):# 文章を分解し、一般系にして各単語をリストに格納
             tokens.append(token.base_form)
-        #print(tokens)
         for i in range(len(tokens)):# 切って正規化した各単語を取得する
             contentKeywordIndexs=[]
             for j in range(len(self.keywords)):# キーワードを１つずつ取得
                 if self.keywords[j] in tokens[i]:# キーワードを含むか判定
                     contentKeywordIndexs.append(j)
-                    #print(self.keywords[j])
-                    #print("jだよ",j)
-            #print("contentKeywordIndexsだよ",contentKeywordIndexs)
             temp=[]# 一時リスト
             if contentKeywordIndexs != []:# contentKeywordIndexsリストが空じゃないとき実行
                 for a_index in contentKeywordIndexs:# contentKeywordIndexsリストに含まれる単語の長さを書き出す
                     temp.append(len(self.keywords[a_index]))
                     #print("length",len(self.keywords[a_index]))
                 maxIndex = temp.index(max(temp))# 最長文字列のインデックス取得
-                #print(maxIndex)
-                #print("contentKeywordIndexs[maxIndex] : ",contentKeywordIndexs[maxIndex])
                 symbols.append(self.symbols_BASE[contentKeywordIndexs[maxIndex]])# 最長単語の細感情値格納
                 if i < len(tokens)-1:# 文章最後の単語のときは実行しない
                     if tokens[i+1] == 'ない':# 単語tokens[i]の後ろの単語が「ない」だったら追加した要素削除
                         symbols.remove(self.symbols_BASE[contentKeywordIndexs[maxIndex]])
-        #print(symbols)
-
         return symbols, sen, tokens
 
     def EmoChange(self, symbols):
@@ -217,7 +199,6 @@ class Main_process:
         return emoscount_list
 
     def Write_emos(self):
-        #print(self.allsentences_emos_list)
         outfile = './SENTENCE/emomemo/'+self.onlyfile+'.txt'
         if not os.path.exists("./SENTENCE/emomemo"):
             os.makedirs("./SENTENCE/emomemo")
