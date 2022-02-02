@@ -19,6 +19,7 @@ class MainWindowConnect(QtCore.QObject):
     def __init__(self, parent=None):
         super(MainWindowConnect, self).__init__(parent)
         self.sentence_enabled = False
+        self.voice_enabled=False
         self.FACEpointmemo = None
         self.FACEemomemo = None
         self.flag = 0
@@ -36,11 +37,12 @@ class MainWindowConnect(QtCore.QObject):
     def logging_print_nocrcode(self,text):
         print(text)
         self.logging_addsignal.emit(str(text).replace("<","&lt;").replace(">","&gt;"))
-    @QtCore.Slot(str,float,bool)
-    def running_syori_clicked(self,filepath2,float_byou2,sentence_checked):
+    @QtCore.Slot(str,float,bool,bool)
+    def running_syori_clicked(self,filepath2,float_byou2,sentence_checked,voice_checked):
         self.videofilepath=filepath2
         self.floatbyou=float_byou2
         self.sentence_enabled=sentence_checked
+        self.voice_enabled=voice_checked
         self.thread1=threading.Thread(target=self.mainProgram)
         self.thread1.setDaemon(True)
         self.thread1.start()
