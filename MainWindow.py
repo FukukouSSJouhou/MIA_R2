@@ -42,6 +42,7 @@ class MainWindowConnect(QtCore.QObject):
         self.videofilepath=filepath2
         self.floatbyou=float_byou2
         self.sentence_enabled=sentence_checked
+        self.voice_enabled=voice_checked
         self.thread1=threading.Thread(target=self.mainProgram)
         self.thread1.setDaemon(True)
         self.thread1.start()
