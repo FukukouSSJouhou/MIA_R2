@@ -75,20 +75,14 @@ class Face_Process():
         self.loggingobj.debugout(self.filename)
         capture = cv2.VideoCapture(self.filename)
         fps = capture.get(cv2.CAP_PROP_FPS)
-        #print('fps :', fps);
         self.loggingobj.debugout('fps : {}'.format(fps))
-        #print('frame :', capture.get(cv2.CAP_PROP_FRAME_COUNT))
         self.loggingobj.debugout('frame : {}'.format(capture.get(cv2.CAP_PROP_FRAME_COUNT)))
-
-        # self.endtime = capture.get(cv2.CAP_PROP_FRAME_COUNT) / fps
-        #print('endtime :', self.endtime)
         self.loggingobj.debugout("endtime : {}".format(self.endtime))
         getsec = 0
         cascade_path = './FACE/models/haarcascade_frontalface_default.xml'
         cascade = cv2.CascadeClassifier(cascade_path)
         self.hantei = 0
         while getsec <= math.floor(self.endtime):
-            self.loggingobj.debugout(getsec)
             if not os.path.exists(self.imgDIR_NAME + '/target.jpg'):
 
                 # set the time
@@ -99,12 +93,8 @@ class Face_Process():
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 self.front_face_list = cascade.detectMultiScale(gray)
                 self.loggingobj.debugout("{} {}".format(getsec, self.front_face_list))
-                # print(type(self.front_face_list))
-
-                # self.temp_save_imgpaths=[]
                 self.i = 0
                 if len(self.front_face_list) == 0:
-                    # self.facepoint.append([0,0,0,0])
                     getsec += self.pertime
                     continue
                 else:
@@ -113,8 +103,6 @@ class Face_Process():
                         self.save_path = self.imgDIR_NAME + '/temp' + str(self.i) + '.jpg'
                         self.img = frame[y: y + h, x: x + w]
                         cv2.imwrite(self.save_path, self.img)
-                        # self.temp_save_imgpaths.append(self.save_path)
-                        # print("一時停止");time.sleep(2)
                         self.i += 1
                     self.select_target_img_window()
             getsec += self.pertime
@@ -132,8 +120,6 @@ class Face_Process():
         self.rdo_var_target = tk.IntVar()
         self.rdo_var_target.set(self.i + 1)
         rdo_txt = []
-        # self.h_w_size=[]
-        # self.showwin_h, self.showwin_w=0,0
         load_img_list = []
 
         for j in range(self.i):
@@ -144,15 +130,6 @@ class Face_Process():
             rdo_target_select = ttk.Radiobutton(self.showwin, variable=self.rdo_var_target, value=j + 1,
                                                 text=rdo_txt[j])
             rdo_target_select.place(x=10 + 25 + (100 * j), y=120)
-            # 各画像の横縦サイズを取得
-            # self.img_property_ndarray = cv2.imread(self.imgDIR_NAME+'/temp'+str(self.j)+'.jpg')
-            # self.h, self.w, _ = self.img_property_ndarray.shape
-            # h = self.front_face_list[j][2]
-            # w = self.front_face_list[j][3]
-            # self.h_w_size.append([h, w])
-            # self.showwin_h+=self.h
-            # self.showwin_w+=self.w
-            # print('sum_h :',self.showwin_h,'  sum_w :',self.showwin_w)
 
             # jpg画像ファイルを読み込む
             pil_img = Image.open(self.imgDIR_NAME + '/temp' + str(j) + '.jpg')
