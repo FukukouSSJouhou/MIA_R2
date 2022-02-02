@@ -36,8 +36,8 @@ class MainWindowConnect(QtCore.QObject):
     def logging_print_nocrcode(self,text):
         print(text)
         self.logging_addsignal.emit(str(text).replace("<","&lt;").replace(">","&gt;"))
-    @QtCore.Slot(str,float,bool)
-    def running_syori_clicked(self,filepath2,float_byou2,sentence_checked):
+    @QtCore.Slot(str,float,bool,bool)
+    def running_syori_clicked(self,filepath2,float_byou2,sentence_checked,voice_checked):
         self.videofilepath=filepath2
         self.floatbyou=float_byou2
         self.sentence_enabled=sentence_checked
