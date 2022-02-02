@@ -60,18 +60,18 @@ class Sentence_Process:
 
         #-------------------- Emotion dictionary part --------------------
         for count in range(len(starts_lengths)+1):
-            print('='*30)
+            #print('='*30)
             self.loggingobj.debugout('==============================\n')
             symbols, sentence, tokens = Instance_sentence.EmoRecognize(count)
-            print(sentence,'\n',tokens,'\nsymbols :',symbols)
+            #print(sentence,'\n',tokens,'\nsymbols :',symbols)
             self.loggingobj.debugout('{}\n{}\n{}'.format(sentence, tokens, symbols))
             SYMBOLs = Instance_sentence.EmoChange(symbols)
-            print('SYMBOLs :', SYMBOLs)
+            #print('SYMBOLs :', SYMBOLs)
             self.loggingobj.debugout('SYMBOLs : {}\n'.format(SYMBOLs))
             emoscount_list = Instance_sentence.CountEmo(SYMBOLs)
-            print('emoscount_list :', emoscount_list)
+            #print('emoscount_list :', emoscount_list)
             self.loggingobj.debugout('emoscount_list : {}\n'.format(emoscount_list))
-        print('='*30)
+        #print('='*30)
         self.loggingobj.debugout('==============================\n')
         SENTENCEemomemo = Instance_sentence.Write_emos()
         self.loggingobj.successout('Exported SENTENCEemomemo')

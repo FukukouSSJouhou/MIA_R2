@@ -51,7 +51,7 @@ class Face_Process():
         self.loggingobj.successout("Outputed Facepointmemo!")
         for index in range(math.floor(self.endtime)+1):
             peremos=Instance_face.detect_emotion(index)
-            self.loggingobj.normalout("{} : {}".format(index,peremos))
+            self.loggingobj.debugout("{} : {}".format(index,peremos))
         FACEemomemo=Instance_face.Write_to_textfile()
         self.loggingobj.successout("Exported Faceemomemo!")
         return FACEemomemo, FACEpointmemo,self.endtime,self.voicefile
