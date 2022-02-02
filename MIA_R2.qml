@@ -75,7 +75,7 @@ Window {
                 return;
             }
 
-            mainwinconnect.running_syori_clicked(videopathtextField.text,videolengthtextField.text,checkBoxsent.checked)
+            mainwinconnect.running_syori_clicked(videopathtextField.text,videolengthtextField.text,checkBoxsent.checked,checkBoxvoc.checked)
         }
     }
     FileDialog{
