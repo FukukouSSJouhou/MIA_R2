@@ -62,8 +62,9 @@ class MainWindowConnect(QtCore.QObject):
             self.FACEemomemo=FACEemomemo
             self.FACEpointmemo=FACEpointmemo
             if self.sentence_enabled:
+                self.loggingobj.normalout("Running neutral language processing🖋....")
                 sp=Sentence_Process(self.videofilepath,self.loggingobj,endtime,voicefile)
-                sp.process()
+                SENTENCEemomemo, SENTENCEtimememo, textslist = sp.process()
             self.loggingobj.successout("Success!")
             #print('\033[34m' + 'Success!!' + '\033[0m')
             self.set_runbuttonstate.emit(True)

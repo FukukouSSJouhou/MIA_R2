@@ -51,7 +51,7 @@ class Face_Process():
         self.loggingobj.successout("Outputed Facepointmemo!")
         for index in range(math.floor(self.endtime)+1):
             peremos=Instance_face.detect_emotion(index)
-            self.loggingobj.normalout("{} : {}".format(index,peremos))
+            self.loggingobj.debugout("{} : {}".format(index,peremos))
         FACEemomemo=Instance_face.Write_to_textfile()
         self.loggingobj.successout("Exported Faceemomemo!")
         return FACEemomemo, FACEpointmemo,self.endtime,self.voicefile
@@ -72,20 +72,23 @@ class Face_Process():
         self.imgDIR_NAME = './FACE/temp_img/img_' + self.path_ONLY
         if not os.path.exists(self.imgDIR_NAME):
             os.makedirs(self.imgDIR_NAME)
-        self.loggingobj.normalout(self.filename)
+        self.loggingobj.debugout(self.filename)
         capture = cv2.VideoCapture(self.filename)
         fps = capture.get(cv2.CAP_PROP_FPS)
-        print('fps :', fps);
-        print('frame :', capture.get(cv2.CAP_PROP_FRAME_COUNT))
+        #print('fps :', fps);
+        self.loggingobj.debugout('fps : {}'.format(fps))
+        #print('frame :', capture.get(cv2.CAP_PROP_FRAME_COUNT))
+        self.loggingobj.debugout('frame : {}'.format(capture.get(cv2.CAP_PROP_FRAME_COUNT)))
 
         # self.endtime = capture.get(cv2.CAP_PROP_FRAME_COUNT) / fps
-        print('endtime :', self.endtime)
+        #print('endtime :', self.endtime)
+        self.loggingobj.debugout("endtime : {}".format(self.endtime))
         getsec = 0
         cascade_path = './FACE/models/haarcascade_frontalface_default.xml'
         cascade = cv2.CascadeClassifier(cascade_path)
         self.hantei = 0
         while getsec <= math.floor(self.endtime):
-            print(getsec)
+            self.loggingobj.debugout(getsec)
             if not os.path.exists(self.imgDIR_NAME + '/target.jpg'):
 
                 # set the time
@@ -95,7 +98,7 @@ class Face_Process():
                 # execute the face detection model
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 self.front_face_list = cascade.detectMultiScale(gray)
-                print(getsec, self.front_face_list)
+                self.loggingobj.debugout("{} {}".format(getsec, self.front_face_list))
                 # print(type(self.front_face_list))
 
                 # self.temp_save_imgpaths=[]
