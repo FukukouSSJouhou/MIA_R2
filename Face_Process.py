@@ -88,7 +88,6 @@ class Face_Process():
         cascade = cv2.CascadeClassifier(cascade_path)
         self.hantei = 0
         while getsec <= math.floor(self.endtime):
-            self.loggingobj.debugout(getsec)
             if not os.path.exists(self.imgDIR_NAME + '/target.jpg'):
 
                 # set the time
