@@ -6,7 +6,7 @@ __pycache__/
 .idea/
 _audio/
 FACE/temp_img/
-
+docs/_build/
 FACE/facepointmemo/
 
 FACE/emomemo/
