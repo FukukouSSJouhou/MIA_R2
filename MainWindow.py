@@ -58,6 +58,10 @@ class MainWindowConnect(QtCore.QObject):
             self.is_valid=False
             self.set_runbuttonstate.emit(False)
             self.loggingobj.normalout("Main Thread!")
+            self.loggingobj.blueout("<< Config >>")
+            self.loggingobj.blueout("SENTENCE : {}".format(str(self.sentence_enabled)))
+            self.loggingobj.blueout("VOICE : {}".format(str(self.voice_enabled)))
+            self.loggingobj.blueout("<< Config >>")
             self.loggingobj.normalout("Processing pictures...")
             fp=Face_Process(self.videofilepath,self.floatbyou,self.loggingobj)
             FACEemomemo, FACEpointmemo,endtime,voicefile =  fp.process()
