@@ -136,10 +136,10 @@ Window {
     }
     ScrollView {
         id:logging_scrollview
-        x: 1
+        x: 0
         y: 328
-        width: 629
-        height: 145
+        width: root.width
+        height: root.height-logging_scrollview.y
             TextArea {
                 id: textArea_logging
                 text:""
@@ -167,11 +167,19 @@ Window {
         checked: true
     }
 
+    CheckBox {
+        id: checkBoxvoc
+        x: 201
+        y: 173
+        text: qsTr("Voice")
+        checked: false
+    }
+
 }
 
 /*##^##
 Designer {
     D{i:0;formeditorZoom:0.9}D{i:1}D{i:2}D{i:3}D{i:4}D{i:5}D{i:6}D{i:7}D{i:8}D{i:9}D{i:12}
-D{i:11}D{i:13}D{i:14}
+D{i:11}D{i:13}D{i:14}D{i:15}
 }
 ##^##*/
