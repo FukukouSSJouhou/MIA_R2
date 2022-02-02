@@ -75,11 +75,13 @@ class Face_Process():
         self.loggingobj.normalout(self.filename)
         capture = cv2.VideoCapture(self.filename)
         fps = capture.get(cv2.CAP_PROP_FPS)
-        print('fps :', fps);
-        print('frame :', capture.get(cv2.CAP_PROP_FRAME_COUNT))
+        #print('fps :', fps);
+        self.loggingobj.debugout('fps : {}'.format(fps))
+        #print('frame :', capture.get(cv2.CAP_PROP_FRAME_COUNT))
+        self.loggingobj.debugout('frame : {}'.format(capture.get(cv2.CAP_PROP_FRAME_COUNT)))
 
         # self.endtime = capture.get(cv2.CAP_PROP_FRAME_COUNT) / fps
-        print('endtime :', self.endtime)
+        #print('endtime :', self.endtime)
         getsec = 0
         cascade_path = './FACE/models/haarcascade_frontalface_default.xml'
         cascade = cv2.CascadeClassifier(cascade_path)
