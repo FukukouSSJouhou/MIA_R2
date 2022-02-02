@@ -14,3 +14,5 @@ class KyokoLoggingkun():
         self.logginkun("#FFFF00",strkun)
     def debugout(self,strkun):
         self.logginkun("#FF00FF",strkun)
+    def blueout(self,strkun):
+        self.logginkun("#0000FF",strkun)
