@@ -21,9 +21,7 @@ class Main_process:
         self.endtime = endtime
         self.loggingobj=loggingobj
 
-        #self.cascade_path='./FACE/models/haarcascade_frontalface_default.xml'
         model_path = './FACE/models/5face_emotions_100ep.hdf5'
-        #self.classes = ({0:'angry',1:'happy',2:'neutral',3:'sad',4:'surprise'})
         self.emotions_XCEPTION = load_model(model_path, compile=False)
 
         self.timeemos=[]
@@ -40,28 +38,21 @@ class Main_process:
             os.makedirs('./FACE/emomemo/')
 
     def detect_emotion(self, index):
-        #faces_list = glob.glob(self.imgDIR_NAME+'/sec*.jpg')
-        #cascade=cv2.CascadeClassifier(cascade_path)
         try:
             face_path = self.imgDIR_NAME+'/sec'+str(index)+'.jpg'
             img_detecting = image.load_img(face_path, grayscale=True , target_size=(48, 48))
             img_array = image.img_to_array(img_detecting)
             pImg = np.expand_dims(img_array, axis=0) / 255
             prediction = self.emotions_XCEPTION.predict(pImg)[0]
-            #print(prediction)
 
             emos=[]
             for predict_i in range(len(prediction)):
                 emos.append(prediction[predict_i])
             self.timeemos.append(emos)
-            #print(str(index)+'秒の結果')
-            #print(emos)
 
         except FileNotFoundError:# エラーが起きた時→指定した秒数の画像が無かった時
             emos=[0,0,0,0,0]
             self.timeemos.append(emos)
-            #print(str(index)+'秒の結果')
-            #print([[0,0,0,0,0]])
 
         return emos
 
@@ -87,8 +78,6 @@ class Main_process:
         capture = cv2.VideoCapture(self.video_path)
         fps = capture.get(cv2.CAP_PROP_FPS)
         self.loggingobj.normalout(fps)
-        #self.endtime = capture.get(cv2.CAP_PROP_FRAME_COUNT) / fps
-        #print(self.endtime)
 
         getsec=0
         self.facepoint=[]
@@ -102,7 +91,6 @@ class Main_process:
         # 各秒数の画像を処理
         self.loggingobj.normalout(math.floor(self.endtime))
         while getsec <= math.floor(self.endtime):
-            #print(getsec)
             # set the time
             capture.set(cv2.CAP_PROP_POS_FRAMES, round(fps*getsec))
             _, frame = capture.read()
@@ -111,9 +99,6 @@ class Main_process:
             gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
             self.front_face_list=cascade.detectMultiScale(gray)
             self.loggingobj.debugout("{} {}".format(getsec,self.front_face_list))
-            #print(type(self.front_face_list))
-
-            #self.temp_save_imgpaths=[]
             self.i=0
             if len(self.front_face_list) == 0:
                 self.facepoint.append([0,0,0,0])
@@ -123,14 +108,9 @@ class Main_process:
                     self.save_path = self.imgDIR_NAME+'/temp'+str(self.i)+'.jpg'
                     self.img = frame[y : y+h, x: x+w]
                     cv2.imwrite(self.save_path, self.img)
-                    #self.temp_save_imgpaths.append(self.save_path)
-                    #print("一時停止");time.sleep(2)
                     self.i+=1
 
                 # target画像がまだなければ選択させるメソッドを実行する
-                #if not os.path.exists(self.imgDIR_NAME+'/target.jpg'):
-                #    self.select_target_img()
-
                 # target画像があれば、類似度の算出に移る
                 if os.path.exists(self.imgDIR_NAME+'/target.jpg'):
                     # target画像の処理がまだであれば実行
@@ -163,8 +143,6 @@ class Main_process:
 
         # target画像の削除
         os.remove(self.imgDIR_NAME+'/target.jpg')
-
-        #print(self.facepoint)
         # 顔の位置保存
         txtfile2 = './FACE/facepointmemo/'+self.video_path_ONLY+'.txt'
         f = open(txtfile2, 'w')
@@ -181,101 +159,6 @@ class Main_process:
         self.loggingobj.successout("Released capture")
 
         return txtfile2
-    """
-    def select_target_img(self):
-        # 一時保存画像の個数からウィンドウのサイズを決定
-        win_height = 20+20*self.i
-
-        self.root_INmod = tk.Tk()
-        self.root_INmod.title('Select window')
-        self.root_INmod.geometry('200x{}'.format(str(win_height)))
-        self.root_INmod.resizable(0,0)
-
-        # 選択用のラジオボタンを配置
-        #画像それぞれのサイズを取得してshowwinのサイズを決める
-        self.rdo_var_INmod = tk.IntVar()
-        rdo_txt=[]
-        self.h_w_size=[]
-        #self.showwin_h, self.showwin_w=0,0
-        load_img_list=[]
-
-        for j in range(self.i):
-            #print(j)
-            # ラジオボタンに表示するテキストをリストに追加
-            rdo_txt.append(str(j+1)+"img")
-            # ラジオボタンを配置
-            self.rdo = ttk.Radiobutton(self.root_INmod, variable=self.rdo_var_INmod, value=j+1, text=rdo_txt[j])
-            self.rdo.pack()
-            # 各画像の横縦サイズを取得
-            #self.img_property_ndarray = cv2.imread(self.imgDIR_NAME+'/temp'+str(self.j)+'.jpg')
-            #self.h, self.w, _ = self.img_property_ndarray.shape
-            h = self.front_face_list[j][2]
-            w = self.front_face_list[j][3]
-            self.h_w_size.append([h, w])
-            #self.showwin_h+=self.h
-            #self.showwin_w+=self.w
-            #print('sum_h :',self.showwin_h,'  sum_w :',self.showwin_w)
-
-            # jpg画像ファイルを読み込む
-            pil_img = Image.open(self.imgDIR_NAME+'/temp'+str(j)+'.jpg')
-            photo_img = ImageTk.PhotoImage(image=pil_img, master=self.root_INmod)
-            load_img_list.append(photo_img)
-        self.rdo_var_INmod.set(1)
-        # 一番最後にtarget画像が無かった場合に選択するラジオボタンを配置
-        #print(self.i)
-        self.rdo = ttk.Radiobutton(self.root_INmod, variable=self.rdo_var_INmod, value=self.i+1, text='target画像がない')
-        self.rdo.pack()
-
-        # 画像表示ウィンドウの作成・表示
-        self.show_img(load_img_list)
-
-
-
-        self.root_INmod.mainloop()
-
-        # ウィンドウを消した時の処理
-        self.after_close_root()
-    """
-    """
-    def show_img(self, load_img_list):
-        for k in range(self.i):
-            h = self.h_w_size[k][0]
-            w = self.h_w_size[k][1]
-
-            #print('サブウィンドウ作成')
-            showwin = tk.Toplevel(self.root_INmod)
-            showwin.title('Show temp image'+str(k+1))
-            showwin.geometry('{}x{}'.format(w, h))
-
-            # 画像描画用キャンバスを作成
-            canvas = tk.Canvas(showwin, width=w, height=h)
-            canvas.place(x=0,y=0)
-
-            # 画像描画
-            canvas.create_image(w/2, h/2, image=load_img_list[k])
-
-            # 何番目の画像化のラベル
-            numlabel = ttk.Label(showwin, text=str(k+1))
-            numlabel.place(x=0,y=0)
-
-            showwin.resizable(0, 0)
-            #self.showwin.grab_set() # モーダル化
-            #self.showwin.focus_set() # フォーカスを移す
-            showwin.transient(self.root_INmod) # サブウィンドウをタスクバーに表示しない
-    """
-    """
-    def after_close_root(self):
-        rdo_which = self.rdo_var_INmod.get()
-        print(rdo_which)
-
-        # 'target画像がない'を選択していない場合処理
-        #print(rdo_which-1)
-        #print(self.i)
-        if rdo_which-1 != self.i:
-            old = self.imgDIR_NAME+'/temp'+str(rdo_which-1)+'.jpg'
-            new = self.imgDIR_NAME+'/target.jpg'
-            shutil.copy(old, new)
-    """
     #---------------------------------------------------------
     # 類似度の算出
     def similarity(self):
