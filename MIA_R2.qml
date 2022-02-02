@@ -136,10 +136,10 @@ Window {
     }
     ScrollView {
         id:logging_scrollview
-        x: 1
+        x: 0
         y: 328
-        width: 629
-        height: 145
+        width: root.width
+        height: root.height-logging_scrollview.y
             TextArea {
                 id: textArea_logging
                 text:""
