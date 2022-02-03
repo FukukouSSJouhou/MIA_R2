@@ -1,3 +1,4 @@
+import multiprocessing
 import os
 
 from Modules import SENTENCEmod
@@ -15,6 +16,7 @@ class Sentence_Process:
         self.endtime=endtime
         self.voicefile=voicefile
         self.Instance_sentence=None
+        self.threadpool=multiprocessing.pool.ThreadPool(processes=8)
     def process(self):
         self.loggingobj.normalout("<< SENTENCE >>")
         subjectCSV = './SENTENCE/csv/Asubject.csv'
