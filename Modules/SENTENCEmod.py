@@ -1,5 +1,7 @@
 import subprocess
 import os
+from concurrent.futures import ThreadPoolExecutor
+
 import speech_recognition as sr
 import pandas as pd
 from janome.tokenizer import Tokenizer
@@ -26,7 +28,7 @@ class Main_process:
         self.tokenizer = Tokenizer(emoDic, udic_type="simpledic", udic_enc="utf8")
 
         self.allsentences_emos_list=[]
-
+        self.thread_args=[]
     def Info_audio(self):
         cmd_getinfo = ['ffmpeg','-i',self.voicefile,'-vn','-af','volumedetect','-f','null','-']
         Info = subprocess.run(cmd_getinfo, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -72,10 +74,14 @@ class Main_process:
         self.starts_ends_list.append([starttime_S, endtime_S])
 
         text = self.SpeechRecognition()
-        self.textslist.append(text)
+        self.textslist[0]=text
 
         return text
-
+    def set_maxlskun(self,maxdt):
+        for count in range(maxdt):
+            self.textslist.append("")
+        for count in range(maxdt-1):
+            self.starts_ends_list.append([0,0])
     def Cut_by_silence(self, count):
         splitfile = './SENTENCE/split_temp/'+str(count+1)+'.wav'
         starttime = self.starts_lengths[count][0]+self.starts_lengths[count][1]; endtime = self.starts_lengths[count+1][0]
@@ -85,14 +91,57 @@ class Main_process:
                       '-t',str(endtime-starttime+0.5),
                       splitfile]# splitfile
         subprocess.run(cmd_output, shell=False)
-        self.starts_ends_list.append([starttime, endtime])
+        self.starts_ends_list[count+1]=([starttime, endtime])
 
         text = self.SpeechRecognition_2(splitfile)
-        self.textslist.append(text)
+        #self.textslist.append(text)
+        self.textslist[count+1]=text
         os.remove(splitfile)
 
         return text #[starttime, endtime]
+    @staticmethod
+    def Cut_by_silence_syori(count,starttime,endtime):
+        splitfile = './SENTENCE/split_temp/'+str(count+1)+'.wav'
+        cmd_output = ['ffmpeg','-y','-i','./SENTENCE/split_temp/normalized.wav',
+                      '-ss',str(starttime-0.3),
+                      '-t',str(endtime-starttime+0.5),
+                      splitfile]# splitfile
+        subprocess.run(cmd_output, shell=False)
 
+        try:
+            k=KyokoWTGoogle()
+            text=k.gettext(splitfile)
+        except AttributeError as a:
+            text='<empty>'
+        except Exception as e:
+            #print('========== ERROR ==========')
+            text = '<empty>'
+            print("type:" + str(type(e)))
+            print('args:' + str(e.args))
+
+        os.remove(splitfile)
+        return count,text
+    @staticmethod
+    def Cut_by_silence_syori_wrapper(args):
+        return Main_process.Cut_by_silence_syori(*args)
+    def Cut_by_silence_Q(self,count):
+
+        splitfile = './SENTENCE/split_temp/'+str(count+1)+'.wav'
+        starttime = self.starts_lengths[count][0]+self.starts_lengths[count][1]; endtime = self.starts_lengths[count+1][0]
+        self.starts_ends_list[count+1]=([starttime, endtime])
+        self.thread_args.append([count,starttime,endtime])
+        #self.textslist.append(text)
+        #self.textslist[count+1]=text
+    def run_multiproc(self):
+        resutskun=[]
+        with ThreadPoolExecutor(max_workers=16) as executor:
+            results=executor.map(
+                Main_process.Cut_by_silence_syori_wrapper,self.thread_args,timeout=None
+            )
+            for dt in results:
+                resutskun.append(dt)
+        for dt2 in resutskun:
+            self.textslist[dt2[0]+1]=dt2[1]
     def Cut_by_silence_E(self):
         starttime_E = self.starts_lengths[len(self.starts_lengths)-1][0]+self.starts_lengths[len(self.starts_lengths)-1][1]; #endtime_E = self.endtime
 
@@ -122,6 +171,19 @@ class Main_process:
         return text
 
     def SpeechRecognition_2(self,wav_path):
+        try:
+            k=KyokoWTGoogle()
+            text=k.gettext(wav_path)
+        except AttributeError as a:
+            text='<empty>'
+        except Exception as e:
+            #print('========== ERROR ==========')
+            text = '<empty>'
+            print("type:" + str(type(e)))
+            print('args:' + str(e.args))
+        return text
+    @staticmethod
+    def SpeechRecognition_static(wav_path):
         try:
             k=KyokoWTGoogle()
             text=k.gettext(wav_path)
