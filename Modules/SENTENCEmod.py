@@ -78,6 +78,8 @@ class Main_process:
     def set_maxlskun(self,maxdt):
         for count in range(maxdt):
             self.textslist.append("")
+        for count in range(maxdt-1):
+            self.starts_ends_list.append([0,0])
     def Cut_by_silence(self, count):
         splitfile = './SENTENCE/split_temp/'+str(count+1)+'.wav'
         starttime = self.starts_lengths[count][0]+self.starts_lengths[count][1]; endtime = self.starts_lengths[count+1][0]
@@ -87,7 +89,7 @@ class Main_process:
                       '-t',str(endtime-starttime+0.5),
                       splitfile]# splitfile
         subprocess.run(cmd_output, shell=False)
-        self.starts_ends_list.append([starttime, endtime])
+        self.starts_ends_list[count+1]=([starttime, endtime])
 
         text = self.SpeechRecognition_2(splitfile)
         #self.textslist.append(text)
