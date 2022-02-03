@@ -31,7 +31,17 @@ class Face_Process():
         self.pertime = int(timedouga)
         self.loggingobj = loggingobj
         self.path_ONLY = path_cutext(self.filename)
-
+    def process_onlyaudio(self):
+        self.loggingobj.normalout("<< (Only Audio) >>")
+        if not os.path.exists(self.filename):
+            self.loggingobj.errout("404 NOT FOUND")
+        self.loggingobj.normalout("input file name : " + self.filename)
+        self.loggingobj.normalout("Processing movie file :" + self.filename)
+        self.Make_audio()
+        self.loggingobj.successout("Generated Wav File.")
+        self.endtime = self.get_playtime()
+        self.loggingobj.successout("The length of the video / audio file has been confirmed: {}".format(self.endtime))
+        return self.endtime,self.voicefile
     def process(self):
         self.loggingobj.normalout("<< FACE >>")
         if not os.path.exists(self.filename):
