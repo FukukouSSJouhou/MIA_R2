@@ -32,13 +32,6 @@ class Sentence_Process:
 
         text = Instance_sentence.Cut_by_silence_S()
         self.loggingobj.normalout(text)
-        for count in range(len(starts_lengths)-1):
-            text = Instance_sentence.Cut_by_silence(count)
-            self.loggingobj.debugout(text)
-        text = Instance_sentence.Cut_by_silence_E()
-        self.loggingobj.normalout(text)
-
-        print(text)
         self.loggingobj.debugout('end')
         self.loggingobj.debugout('0s : {}\n'.format(text))
         for count in range(len(starts_lengths)-1):
