@@ -61,14 +61,21 @@ class MainWindowConnect(QtCore.QObject):
             self.set_runbuttonstate.emit(False)
             self.loggingobj.normalout("Main Thread!")
             self.loggingobj.blueout("<< Config >>")
+            self.loggingobj.blueout("FACE : {}".format(str(self.face_checked)))
             self.loggingobj.blueout("SENTENCE : {}".format(str(self.sentence_enabled)))
             self.loggingobj.blueout("VOICE : {}".format(str(self.voice_enabled)))
             self.loggingobj.blueout("<< Config >>")
-            self.loggingobj.normalout("Processing pictures...")
             fp=Face_Process(self.videofilepath,self.floatbyou,self.loggingobj)
-            FACEemomemo, FACEpointmemo,endtime,voicefile =  fp.process()
-            self.FACEemomemo=FACEemomemo
-            self.FACEpointmemo=FACEpointmemo
+            endtime=None
+            voicefile=None
+            if not self.face_checked:
+                self.loggingobj.normalout("Processing Audio...")
+                endtime,voicefile=fp.process_onlyaudio()
+            else:
+                self.loggingobj.normalout("Processing pictures...")
+                FACEemomemo, FACEpointmemo,endtime,voicefile =  fp.process()
+                self.FACEemomemo=FACEemomemo
+                self.FACEpointmemo=FACEpointmemo
             if self.sentence_enabled:
                 self.loggingobj.normalout("Running neutral language processing🖋....")
                 sp=Sentence_Process(self.videofilepath,self.loggingobj,endtime,voicefile)
