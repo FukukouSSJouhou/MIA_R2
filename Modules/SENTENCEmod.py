@@ -134,7 +134,7 @@ class Main_process:
         #self.textslist[count+1]=text
     def run_multiproc(self):
         resutskun=[]
-        with ThreadPoolExecutor(max_workers=4) as executor:
+        with ThreadPoolExecutor(max_workers=16) as executor:
             results=executor.map(
                 Main_process.Cut_by_silence_syori_wrapper,self.thread_args,timeout=None
             )
