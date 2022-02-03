@@ -77,18 +77,19 @@ class Main_process:
         return text
 
     def Cut_by_silence(self, count):
-        splitfile = './SENTENCE/split_temp/'+str(count+1).zfill(4)+'.wav'
+        splitfile = './SENTENCE/split_temp/'+str(count+1)+'.wav'
         starttime = self.starts_lengths[count][0]+self.starts_lengths[count][1]; endtime = self.starts_lengths[count+1][0]
 
         cmd_output = ['ffmpeg','-y','-i','./SENTENCE/split_temp/normalized.wav',
                       '-ss',str(starttime-0.3),
                       '-t',str(endtime-starttime+0.5),
-                      './SENTENCE/split_temp/temp.wav']# splitfile
+                      splitfile]# splitfile
         subprocess.run(cmd_output, shell=False)
         self.starts_ends_list.append([starttime, endtime])
 
-        text = self.SpeechRecognition()
+        text = self.SpeechRecognition_2(splitfile)
         self.textslist.append(text)
+        os.remove(splitfile)
 
         return text #[starttime, endtime]
 
@@ -111,6 +112,19 @@ class Main_process:
         try:
             k=KyokoWTGoogle()
             text=k.gettext('./SENTENCE/split_temp/temp.wav')
+        except AttributeError as a:
+            text='<empty>'
+        except Exception as e:
+            #print('========== ERROR ==========')
+            text = '<empty>'
+            print("type:" + str(type(e)))
+            print('args:' + str(e.args))
+        return text
+
+    def SpeechRecognition_2(self,wav_path):
+        try:
+            k=KyokoWTGoogle()
+            text=k.gettext(wav_path)
         except AttributeError as a:
             text='<empty>'
         except Exception as e:
