@@ -75,7 +75,9 @@ class Main_process:
         self.textslist.append(text)
 
         return text
-
+    def set_maxlskun(self,maxdt):
+        for count in range(maxdt):
+            self.textslist.append("")
     def Cut_by_silence(self, count):
         splitfile = './SENTENCE/split_temp/'+str(count+1)+'.wav'
         starttime = self.starts_lengths[count][0]+self.starts_lengths[count][1]; endtime = self.starts_lengths[count+1][0]
