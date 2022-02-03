@@ -22,6 +22,7 @@ class MainWindowConnect(QtCore.QObject):
         self.voice_enabled=False
         self.FACEpointmemo = None
         self.FACEemomemo = None
+        self.face_checked=False
         self.flag = 0
         self.is_valid=True
         self.instance = []
@@ -37,10 +38,11 @@ class MainWindowConnect(QtCore.QObject):
     def logging_print_nocrcode(self,text):
         print(text)
         self.logging_addsignal.emit(str(text).replace("<","&lt;").replace(">","&gt;"))
-    @QtCore.Slot(str,float,bool,bool)
-    def running_syori_clicked(self,filepath2,float_byou2,sentence_checked,voice_checked):
+    @QtCore.Slot(str,float,bool,bool,bool)
+    def running_syori_clicked(self,filepath2,float_byou2,sentence_checked,voice_checked,face_checked):
         self.videofilepath=filepath2
         self.floatbyou=float_byou2
+        self.face_checked=face_checked
         self.sentence_enabled=sentence_checked
         self.voice_enabled=voice_checked
         self.thread1=threading.Thread(target=self.mainProgram)
@@ -59,14 +61,21 @@ class MainWindowConnect(QtCore.QObject):
             self.set_runbuttonstate.emit(False)
             self.loggingobj.normalout("Main Thread!")
             self.loggingobj.blueout("<< Config >>")
+            self.loggingobj.blueout("FACE : {}".format(str(self.face_checked)))
             self.loggingobj.blueout("SENTENCE : {}".format(str(self.sentence_enabled)))
             self.loggingobj.blueout("VOICE : {}".format(str(self.voice_enabled)))
             self.loggingobj.blueout("<< Config >>")
-            self.loggingobj.normalout("Processing pictures...")
             fp=Face_Process(self.videofilepath,self.floatbyou,self.loggingobj)
-            FACEemomemo, FACEpointmemo,endtime,voicefile =  fp.process()
-            self.FACEemomemo=FACEemomemo
-            self.FACEpointmemo=FACEpointmemo
+            endtime=None
+            voicefile=None
+            if not self.face_checked:
+                self.loggingobj.normalout("Processing Audio...")
+                endtime,voicefile=fp.process_onlyaudio()
+            else:
+                self.loggingobj.normalout("Processing pictures...")
+                FACEemomemo, FACEpointmemo,endtime,voicefile =  fp.process()
+                self.FACEemomemo=FACEemomemo
+                self.FACEpointmemo=FACEpointmemo
             if self.sentence_enabled:
                 self.loggingobj.normalout("Running neutral language processing🖋....")
                 sp=Sentence_Process(self.videofilepath,self.loggingobj,endtime,voicefile)
