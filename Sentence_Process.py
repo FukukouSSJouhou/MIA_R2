@@ -29,7 +29,7 @@ class Sentence_Process:
         self.loggingobj.normalout("Normalized audio")
 
         starts_lengths = Instance_sentence.Cut_silence_detail()
-
+        Instance_sentence.set_maxlskun(len(starts_lengths))
         text = Instance_sentence.Cut_by_silence_S()
         self.loggingobj.normalout(text)
         self.loggingobj.debugout('end')

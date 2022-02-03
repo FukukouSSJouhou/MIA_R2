@@ -72,7 +72,7 @@ class Main_process:
         self.starts_ends_list.append([starttime_S, endtime_S])
 
         text = self.SpeechRecognition()
-        self.textslist.append(text)
+        self.textslist[0]=text
 
         return text
     def set_maxlskun(self,maxdt):
@@ -90,7 +90,8 @@ class Main_process:
         self.starts_ends_list.append([starttime, endtime])
 
         text = self.SpeechRecognition_2(splitfile)
-        self.textslist.append(text)
+        #self.textslist.append(text)
+        self.textslist[count+1]=text
         os.remove(splitfile)
 
         return text #[starttime, endtime]
