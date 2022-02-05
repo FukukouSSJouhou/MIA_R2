@@ -10,9 +10,9 @@ from MainWindow import MainWindowConnect
 
 
 def main():
-    #os.environ["QT_QUICK_CONTROLS_STYLE"] = "Material"
+    #os.environ["QT_QUICK_CONTROLS_STYLE"] = "Imagine"
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
-    sys.argv += ['--style', 'material']
+    #sys.argv += ['--style', 'Material']
     app=QtWidgets.QApplication(sys.argv)
     mainwinconnect=MainWindowConnect()
     engine=QtQml.QQmlApplicationEngine()
