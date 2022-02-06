@@ -5,6 +5,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Dialogs 1.3
 Window {
     property variant subwingengraphsingle;
+    property variant configwin;
     width: 640
     height: 480
     id:root
@@ -194,11 +195,24 @@ Window {
         checked: true
     }
 
+    Button {
+        id: configbutton
+        x: 497
+        y: 262
+        text: qsTr("Config")
+        onClicked: {
+            var component = Qt.createComponent("ConfigWindow.qml")
+            configwin    = component.createObject(root)
+            configwin.enabledautothreads=false;
+            configwin.show()
+        }
+    }
+
 }
 
 /*##^##
 Designer {
     D{i:0;formeditorZoom:0.9}D{i:1}D{i:2}D{i:3}D{i:4}D{i:5}D{i:6}D{i:7}D{i:8}D{i:9}D{i:11}
-D{i:13}D{i:12}D{i:14}D{i:15}D{i:16}D{i:17}
+D{i:13}D{i:12}D{i:14}D{i:15}D{i:16}D{i:17}D{i:18}
 }
 ##^##*/
