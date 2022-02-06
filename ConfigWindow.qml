@@ -6,7 +6,8 @@ Window {
     width: 640
     height: 480
     title: "aa"
-    signal savedconfig(bool checkedobj)
+    id:windowkun
+    signal savedconfig(bool checkedobj,int datanums)
     Label {
         id: label
         x: 48
@@ -30,6 +31,19 @@ Window {
         x: 472
         y: 394
         text: qsTr("Save")
+        onClicked: {
+            savedconfig(autothreadscheckbox.checked,0)
+        }
+    }
+
+    Button {
+        id: closebutton
+        x: 65
+        y: 394
+        text: qsTr("Close")
+        onClicked: {
+            windowkun.close()
+        }
     }
 }
 
