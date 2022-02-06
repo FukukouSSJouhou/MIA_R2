@@ -33,6 +33,7 @@ Window {
         text: qsTr("Save")
         onClicked: {
             savedconfig(autothreadscheckbox.checked,0)
+            windowkun.close()
         }
     }
 
