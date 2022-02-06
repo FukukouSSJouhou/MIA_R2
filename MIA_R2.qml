@@ -204,6 +204,12 @@ Window {
             var component = Qt.createComponent("ConfigWindow.qml")
             configwin    = component.createObject(root)
             configwin.enabledautothreads=false;
+            configwin.savedconfig.connect(
+                        (checkedautokun,datavalue)=>{
+                            console.log(checkedautokun)
+                            console.log(datavalue)
+                        }
+            );
             configwin.show()
         }
     }
