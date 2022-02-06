@@ -9,6 +9,7 @@ Window {
     height: 480
     id:root
     visible: true
+    color: "#ffffff"
     title: qsTr("MIA R2")
     Component.onCompleted: {
         function onLoad(){
@@ -134,6 +135,14 @@ Window {
         }
         text:"1"
     }
+    Rectangle {
+        id: rectangle
+        x: 0
+        y: 328
+        width: logging_scrollview.width
+        height:logging_scrollview.height
+        color: "#000000"
+    }
     ScrollView {
         id:logging_scrollview
         x: 0
@@ -143,10 +152,12 @@ Window {
             TextArea {
                 id: textArea_logging
                 text:""
+                color: "#FFFFFF"
                 wrapMode: Text.Wrap
                 textFormat: Text.RichText
                 placeholderText: qsTr("")
                 readOnly: true
+
             }
     }
     Button {
@@ -187,7 +198,7 @@ Window {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.9}D{i:1}D{i:2}D{i:3}D{i:4}D{i:5}D{i:6}D{i:7}D{i:8}D{i:9}D{i:12}
-D{i:11}D{i:13}D{i:14}D{i:15}D{i:16}
+    D{i:0;formeditorZoom:0.9}D{i:1}D{i:2}D{i:3}D{i:4}D{i:5}D{i:6}D{i:7}D{i:8}D{i:9}D{i:11}
+D{i:13}D{i:12}D{i:14}D{i:15}D{i:16}D{i:17}
 }
 ##^##*/
