@@ -132,9 +132,9 @@ class Main_process:
         self.thread_args.append([count,starttime,endtime])
         #self.textslist.append(text)
         #self.textslist[count+1]=text
-    def run_multiproc(self):
+    def run_multiproc(self,max_workerskun=16):
         resutskun=[]
-        with ThreadPoolExecutor(max_workers=16) as executor:
+        with ThreadPoolExecutor(max_workers=max_workerskun) as executor:
             results=executor.map(
                 Main_process.Cut_by_silence_syori_wrapper,self.thread_args,timeout=None
             )
