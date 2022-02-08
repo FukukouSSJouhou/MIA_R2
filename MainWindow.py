@@ -45,6 +45,13 @@ class MainWindowConnect(QtCore.QObject):
         self.face_checked=face_checked
         self.sentence_enabled=sentence_checked
         self.voice_enabled=voice_checked
+        if os.path.exists(self.videofilepath):
+            var = None
+        else:
+            self.loggingobj.errout("Video file is not exist.")
+            self.loggingobj.errout("Please set and run..")
+            return
+
         self.thread1=threading.Thread(target=self.mainProgram)
         self.thread1.setDaemon(True)
         self.thread1.start()
