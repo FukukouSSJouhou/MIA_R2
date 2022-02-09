@@ -37,6 +37,13 @@ Window {
             mainwinconnect.set_runbuttonstate.connect(
                 (boolkun)=> startbutton.enabled=boolkun
             );
+            mainwinconnect.errdialog_signal.connect(
+                        (title,content) => {
+                            beforerunpc_errdialog.title=title;
+                            beforerunpc_errdialog.text=content;
+                            beforerunpc_errdialog.open();
+                        }
+                            )
         }
         onLoad();
     }
@@ -58,6 +65,14 @@ Window {
             beforerunpc_errdialog.close()
         }
         icon: StandardIcon.Critical
+        standardButtons: StandardButton.OK
+    }
+    MessageDialog{
+        id:errdialogall
+        onAccepted: {
+            errdialogall.close()
+        }
+        icon:StandardIcon.Critical
         standardButtons: StandardButton.OK
     }
 
