@@ -16,6 +16,7 @@ class MainWindowConnect(QtCore.QObject):
     show_picture_graph1=QtCore.Signal(str,str)
     logging_ansi_addsignal=QtCore.Signal(str,str)
     set_runbuttonstate=QtCore.Signal(bool)
+    errdialog_signal=QtCore.Signal(str,str)
     def __init__(self, parent=None):
         super(MainWindowConnect, self).__init__(parent)
         self.sentence_enabled = False
@@ -50,6 +51,7 @@ class MainWindowConnect(QtCore.QObject):
         else:
             self.loggingobj.errout("Video file is not exist.")
             self.loggingobj.errout("Please set and run..")
+            self.errdialog_signal.emit("Error ","Video file is not exist.")
             return
 
         self.thread1=threading.Thread(target=self.mainProgram)
