@@ -10,7 +10,6 @@ import cv2
 import tkinter as tk
 
 from PIL import Image, ImageTk
-from PySide2 import QtCore, QtGui
 
 from Modules import FACEmod
 from Modules.Loggingkun import KyokoLoggingkun
@@ -22,11 +21,13 @@ def path_cutext(pathkun):
 
 
 class Face_Process():
-    def __init__(self, filename, timedouga, loggingobj:KyokoLoggingkun):
+    def __init__(self, filename, timedouga, loggingobj:KyokoLoggingkun,screen_w,screen_h):
         self.hantei = None
         self.voicefile = None
         self.imgDIR_NAME = None
         self.endtime = None
+        self.screen_w=screen_w
+        self.screen_h=screen_h
         self.filename = filename
         self.pertime = int(timedouga)
         self.loggingobj = loggingobj
@@ -122,8 +123,8 @@ class Face_Process():
 
         self.showwin = tk.Tk()
         self.showwin.title('Select target image')
-        self.showwin.geometry('{}x{}+{}+{}'.format(win_width, win_height, int(QtGui.QGuiApplication.primaryScreen().size().width() / 2 - win_width / 2),
-                                                   int(QtGui.QGuiApplication.primaryScreen().size().height() / 2 - win_height / 2)))
+        self.showwin.geometry('{}x{}+{}+{}'.format(win_width, win_height, int(self.screen_w / 2 - win_width / 2),
+                                                   int(self.screen_h / 2 - win_height / 2)))
 
         # 選択用のラジオボタンを配置
         # 画像それぞれのサイズを取得してshowwinのサイズを決める

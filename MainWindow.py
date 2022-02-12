@@ -2,7 +2,7 @@
 import sys
 import os
 import threading
-from PySide2 import QtCore, QtWidgets, QtQml
+from PySide2 import QtCore, QtWidgets, QtQml, QtGui
 
 from Face_Process import Face_Process
 from Graph_Process import Graph_Process
@@ -74,7 +74,7 @@ class MainWindowConnect(QtCore.QObject):
             self.loggingobj.blueout("SENTENCE : {}".format(str(self.sentence_enabled)))
             self.loggingobj.blueout("VOICE : {}".format(str(self.voice_enabled)))
             self.loggingobj.blueout("<< Config >>")
-            fp=Face_Process(self.videofilepath,self.floatbyou,self.loggingobj)
+            fp=Face_Process(self.videofilepath,self.floatbyou,self.loggingobj,QtGui.QGuiApplication.primaryScreen().size().width(),QtGui.QGuiApplication.primaryScreen().size().height())
             endtime=None
             voicefile=None
             if not self.face_checked:
