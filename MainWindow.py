@@ -2,6 +2,7 @@
 import sys
 import os
 import threading
+import time
 
 from MIA_Libraries_CY.Face_Process import Face_Process
 from MIA_Libraries_CY.KyokoLoggingkun import KyokoLoggingkun
@@ -80,6 +81,7 @@ class MainWindowConnect(QtCore.QObject):
             fp=Face_Process(self.videofilepath,self.floatbyou,self.loggingobj,QtGui.QGuiApplication.primaryScreen().size().width(),QtGui.QGuiApplication.primaryScreen().size().height())
             endtime=None
             voicefile=None
+            start = time.perf_counter()
             if not self.face_checked:
                 self.loggingobj.normalout("Processing Audio...")
                 endtime,voicefile=fp.process_onlyaudio()
@@ -93,6 +95,7 @@ class MainWindowConnect(QtCore.QObject):
                 sp=Sentence_Process(self.videofilepath,self.loggingobj,endtime,voicefile)
                 SENTENCEemomemo, SENTENCEtimememo, textslist = sp.process()
             self.loggingobj.successout("Success!")
+            self.loggingobj.debugout("Time : {}".format((time.perf_counter()-start)))
             #print('\033[34m' + 'Success!!' + '\033[0m')
             self.set_runbuttonstate.emit(True)
             self.is_valid=True
