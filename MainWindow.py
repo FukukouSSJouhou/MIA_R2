@@ -2,11 +2,14 @@
 import sys
 import os
 import threading
+
+from MIA_Libraries_CY.Face_Process import Face_Process
+from MIA_Libraries_CY.KyokoLoggingkun import KyokoLoggingkun
 from PySide2 import QtCore, QtWidgets, QtQml, QtGui
 
-from Face_Process import Face_Process
+#from Face_Process import Face_Process
 from Graph_Process import Graph_Process
-from Modules.Loggingkun import KyokoLoggingkun
+#from Modules.Loggingkun import KyokoLoggingkun
 from Sentence_Process import Sentence_Process
 
 
